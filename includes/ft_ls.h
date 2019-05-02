@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/02 02:33:51 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/02 02:35:25 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@
 /*
 **STRUCTURES
 */
+
+typedef	struct			s_file
+{
+	char				*path;
+	char				*name;
+	char				*full_path;
+	struct s_file		*next;
+}						t_file;
 
 /*
 **	MANDATORY FLAGS
