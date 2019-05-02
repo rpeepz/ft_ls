@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 19:04:29 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:09:08 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/01 20:22:37 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,14 @@ static	int		right_justify(t_mods mod, char **num, int nbyte, int neg)
 	if (mod.prcsn > len)
 		while ((mod.prcsn--) - len > 0)
 			nbyte += (int)write(1, "0", 1);
-	nbyte += (int)write(1, num[0], len - 1 - LEN(num[1]));
-	nbyte += (int)write(1, ".", 1);
-	nbyte += (int)write(1, num[1], len - 1 - LEN(num[0]));
-	return (nbyte);
+	return (nbyte += write(1, num[0], LEN(num[0])));
 }
+
+/*
+**	nbyte += (int)write(1, num[0], len - 1 - LEN(num[1]));
+**	nbyte += (int)write(1, ".", 1);
+**	nbyte += (int)write(1, num[1], len - 1 - LEN(num[0]));
+*/
 
 static	int		left_justify(t_mods mod, char **num, int nbyte, int neg)
 {
