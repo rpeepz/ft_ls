@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/01 21:14:46 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/02 01:55:55 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,13 +121,15 @@ $(NAME):
 		@echo "$(RED)Success!$(NC)"
 		@echo "compiling $(GREEN)$(NAME)$(NC)"
 		@echo "$(RED)done$(NC)"
-		@echo "usage: ./$(NAME) [-$(YELLOW)available flags$(NC)] [file...]"
+		@echo "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]"
 
 clean:
 		@echo "$(YELLOW)removing objects$(NC)"
 		@rm -rf $(OBJ)
 
 fclean: clean
+		@echo "$(RED)removing $(ARCHIVE)$(NC)"
+		@rm -rf $(ARCHIVE)
 		@echo "$(RED)removing $(NAME)$(NC)"
 		@rm -rf $(NAME)
 
