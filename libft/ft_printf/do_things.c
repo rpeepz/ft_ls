@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 20:46:20 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:11:12 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/01 20:47:45 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,30 +96,23 @@ char		**num_string_modld(long double num, t_mods mod)
 	int				len;
 
 	IF_THEN(mod.prcsn == -1, mod.prcsn = 6);
-	str = (char **)malloc(sizeof(char *) * 3);
-	str[2] = NULL;
-	len = 0;
+	len = mod.prcsn;
+	str = (char **)malloc(sizeof(*str) * 3);
+	str[2] = 0;
 	tmp = num - (int)num;
-	while (tmp < 10 && len < mod.prcsn)
+	while (len-- > 0)
+		tmp *= 10;
+	if ((res = (int)tmp) && res != 0)
+		str[1] = ft_itoa(res);
+	else
 	{
-		if ((tmp * 10) - ((int)tmp * 10 > 0.45))
-		{
-			if ((tmp = tmp * 10) == 0)
-				break ;
-		}
-		else if ((tmp = tmp * 10) == 0)
-		{
-			tmp += 1;
-			break ;
-		}
-		len++;
+		str[1] = ft_strnew(6);
+		while (mod.prcsn-- > 0)
+			str[1][len++] = '0';
 	}
-	IF_THEN(mod.prcsn != 0, res = tmp);
-	while (len++ < mod.prcsn)
-		res *= 10;
-	str[1] = ft_itoa(res);
 	tmp = num - (int)num;
-	res = num - tmp;
+	tmp = num - tmp;
+	res = (int)tmp;
 	str[0] = ft_itoa(res);
 	return (str);
 }
