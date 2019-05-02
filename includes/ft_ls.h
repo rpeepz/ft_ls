@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:20:04 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/02 00:25:39 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,13 @@
 # define FT_LS_H
 
 # include "libft.h"
+# include <sys/xattr.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <stdio.h>
+# include <time.h>
+# include <pwd.h>
+# include <grp.h>
 
 #endif
