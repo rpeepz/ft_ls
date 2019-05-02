@@ -2,7 +2,7 @@
 Here lies the repo of RPAPAGNA with my own recreation of unix ls command
 
 allowed funcitons:\
-LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FUNCTIONS\
+LIBRARY  FUNCTIONS\
 `<sys/xaatr.h>`&nbsp;&nbsp;`listxattr, getxattr`\
 `<sys/types.h>, <pwd.h>``getpwuid`\
 `<sys/stat.h>`&nbsp;&nbsp;`stat, lstat`\
