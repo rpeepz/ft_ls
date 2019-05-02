@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/02 02:33:17 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/02 02:39:59 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,7 +120,7 @@ $(NAME):
 		ar -rcs $(ARCHIVE) $(OBJ)
 		@echo "$(RED)Success!$(NC)"
 		@echo "compiling $(GREEN)$(NAME)$(NC)"
-		gcc $(CFLAGS) srcs/main.c $(ARCHIVE)
+		@gcc $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
 		@echo "$(RED)done$(NC)"
 		@echo "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]"
 
