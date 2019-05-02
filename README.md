@@ -6,7 +6,7 @@ LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 `<sys/xaatr.h>`&nbsp;&nbsp;&nbsp;&nbsp;`listxattr, getxattr`\
 `<sys/types.h>`\
 `<pwd.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`getpwuid`\
-`<sys/stat.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`stat, lstat`\
+`<sys/stat.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; `stat, lstat`\
 `<dirent.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`opendir, readdir, closedir`\
 `<stdio.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`perror, strerror`\
 `<time.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`time, ctime`\
