@@ -6,12 +6,19 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/02 02:39:59 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/03 12:30:07 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= ft_ls
 ARCHIVE = libft.a
+
+#COLOR OUTPUT OPIONS
+RED		=\033[0;31m
+GREEN	=\033[0;32m
+YELLOW	=\033[0;33m
+MAG		=\033[0;35m
+NC		=\033[0m
 
 CFLAGS	= -Wall -Werror -Wextra
 INCL	= -I includes/
@@ -19,6 +26,7 @@ INCL	= -I includes/
 SRCS 	=
 
 PRINTF	= convert_percent.c \
+		convert_b.c \
 		convert_c.c \
 		convert_f.c \
 		convert_i.c \
@@ -103,35 +111,42 @@ LIBFT	= ft_atoi.c \
 		get_next_line.c
 
 OBJ		= $(patsubst %.c,%.o,$(SRCS))
-OBJ		+= $(patsubst %.c,%.o,$(PRINTF))
 OBJ		+= $(patsubst %.c,%.o,$(LIBFT))
-
-#COLOR OUTPUT OPIONS
-RED		=\033[0;31m
-GREEN	=\033[0;32m
-YELLOW	=\033[0;33m
-NC		=\033[0m
+OBJ		+= $(patsubst %.c,%.o,$(PRINTF))
 
 all:	$(NAME)
 
 $(NAME):
-		@echo "Building $(GREEN)$(ARCHIVE)$(NC)"
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
 		@gcc $(CFLAGS) -c $(addprefix srcs/,$(SRCS)) $(addprefix libft/ft_printf/,$(PRINTF)) $(addprefix libft/,$(LIBFT)) $(INCL)
-		ar -rcs $(ARCHIVE) $(OBJ)
-		@echo "$(RED)Success!$(NC)"
-		@echo "compiling $(GREEN)$(NAME)$(NC)"
-		@gcc $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
-		@echo "$(RED)done$(NC)"
-		@echo "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]"
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
+		@ar -rcs $(ARCHIVE) $(OBJ)
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG)OK!$(NC)]\n"
+		@printf "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]\n"
 
 clean:
-		@echo "$(YELLOW)removing objects$(NC)"
+		@printf "[$(ARCHIVE)] Rm object\n$(NC)"
 		@rm -rf $(OBJ)
 
-fclean: clean
-		@echo "$(RED)removing $(ARCHIVE)$(NC)"
-		@rm -rf $(ARCHIVE)
-		@echo "$(RED)removing $(NAME)$(NC)"
+1mo:
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
 		@rm -rf $(NAME)
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
+		@rm -rf $(OBJ)
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG)OK!$(NC)]\n"
+
+fclean: clean
+		@printf "[$(GREEN)$(NAME)$(NC)] Rm binary\n"
+		@rm -rf $(ARCHIVE)
+		@rm -rf $(NAME)
+		@rm -rf $(NAME).dSYM
 
 re: fclean all
+
+.PHONY: all clean fclean re 1mo
