@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 20:18:14 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:11:21 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 08:35:28 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,18 @@ static int		get_width(char **str, va_list ap)
 	int		width;
 
 	width = 0;
+	if (**str == '*')
+	{
+		width = va_arg(ap, int);
+		(*str)++;
+	}
 	if (ft_isdigit(**str))
 	{
 		width = ft_atoi(*str);
 		while (ft_isdigit(**str))
 			(*str)++;
 	}
-	else if (**str == '*')
+	if (**str == '*')
 	{
 		width = va_arg(ap, int);
 		(*str)++;
@@ -109,8 +114,13 @@ t_mods			get_mods(char **str, va_list ap)
 {
 	t_mods modifiers;
 
-	modifiers.flags = get_flags(str);
+	modifiers.fl = get_flags(str);
 	modifiers.width = get_width(str, ap);
+	if (modifiers.width < 0)
+	{
+		modifiers.width *= -1;
+		modifiers.fl.minus = 1;
+	}
 	modifiers.prcsn = get_precision(str, ap);
 	modifiers.length = get_length(str);
 	return (modifiers);

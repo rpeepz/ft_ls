@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 20:46:20 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:47:45 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 08:36:52 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,28 @@ void		print_one(char **str)
 	(*str)++;
 }
 
-void		set_flags(t_flag *flags, char c)
+int			get_pre_float(long double number, int ret)
+{
+	long double		tmp;
+
+	tmp = number - (int)number;
+	tmp = number - tmp;
+	ret = (int)tmp;
+	return (ret);
+}
+
+void		set_flags(t_flag *fl, char c)
 {
 	if (c == ' ')
-		flags->space = 1;
+		fl->space = 1;
 	else if (c == '#')
-		flags->pound = 1;
+		fl->pound = 1;
 	else if (c == '+')
-		flags->fplus = 1;
+		fl->fplus = 1;
 	else if (c == '-')
-		flags->minus = 1;
+		fl->minus = 1;
 	else if (c == '0')
-		flags->fzero = 1;
+		fl->fzero = 1;
 }
 
 char		*num_string_u_base(unsigned long long num, int base)
@@ -85,35 +95,6 @@ char		*num_string_base(long long num, int base)
 		num /= base;
 		len--;
 	}
-	return (str);
-}
-
-char		**num_string_modld(long double num, t_mods mod)
-{
-	char			**str;
-	long double		tmp;
-	int				res;
-	int				len;
-
-	IF_THEN(mod.prcsn == -1, mod.prcsn = 6);
-	len = mod.prcsn;
-	str = (char **)malloc(sizeof(*str) * 3);
-	str[2] = 0;
-	tmp = num - (int)num;
-	while (len-- > 0)
-		tmp *= 10;
-	if ((res = (int)tmp) && res != 0)
-		str[1] = ft_itoa(res);
-	else
-	{
-		str[1] = ft_strnew(6);
-		while (mod.prcsn-- > 0)
-			str[1][len++] = '0';
-	}
-	tmp = num - (int)num;
-	tmp = num - tmp;
-	res = (int)tmp;
-	str[0] = ft_itoa(res);
 	return (str);
 }
 

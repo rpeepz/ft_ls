@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 19:39:16 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:09:23 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 03:31:08 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 /*
 **	%	A `%' is written.  No argument is converted.
@@ -49,13 +49,13 @@ static int		right_justify(int width, int fzero)
 
 int				convert_percent(t_mods modifiers)
 {
-	if (modifiers.flags.minus == 1)
+	if (modifiers.fl.minus == 1)
 	{
 		return (left_justify(modifiers.width));
 	}
 	if (modifiers.width > 1)
 	{
-		return (right_justify(modifiers.width, modifiers.flags.fzero));
+		return (right_justify(modifiers.width, modifiers.fl.fzero));
 	}
 	return ((int)write(1, "%", 1));
 }

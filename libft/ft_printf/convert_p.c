@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 21:20:04 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:09:19 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 05:47:59 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 /*
 **	p		The void * pointer argument is printed in hexadecimal
@@ -30,7 +30,7 @@ static int		pad_width(t_mods mod, int len, int nbyte, int neg)
 	{
 		if (mod.width > len)
 		{
-			IF_THEN(mod.flags.fzero && mod.prcsn == -1, pad_char = "0");
+			IF_THEN(mod.fl.fzero && mod.prcsn == -1, pad_char = "0");
 			if (nbyte == 0)
 			{
 				while (mod.width - len - neg > nbyte)
@@ -52,23 +52,26 @@ static	int		right_justify(t_mods mod, char *num, int nbyte)
 	int		len;
 
 	len = (int)ft_strlen(num);
-	if ((mod.flags.fzero && mod.width > 14) || mod.prcsn > 12)
+	if ((mod.fl.fzero && mod.width > 14) || mod.prcsn > len ||
+		(mod.prcsn > 0 && num[2] == '0'))
 	{
 		nbyte += (int)write(1, "0x", 2);
 		len -= 2;
 		num += 2;
-		nbyte = pad_width(mod, len, nbyte, mod.flags.fplus);
+		nbyte = pad_width(mod, len, nbyte, mod.fl.fplus);
 		if (mod.prcsn > len - 2)
 			while ((mod.prcsn--) - len > 0)
 				nbyte += (int)write(1, "0", 1);
 	}
 	else
 	{
-		nbyte = pad_width(mod, len, nbyte, mod.flags.fplus);
+		nbyte = pad_width(mod, len, nbyte, mod.fl.fplus);
 		if (mod.prcsn > len)
 			while ((mod.prcsn--) - len > 0)
 				nbyte += (int)write(1, "0", 1);
 	}
+	IF_RETURN(mod.prcsn == 0 && num[2] == '0',
+		nbyte += (int)write(1, num, len - 1));
 	return (nbyte += (int)write(1, num, len));
 }
 
@@ -104,7 +107,7 @@ int				convert_p(t_mods modifiers, va_list ap)
 	}
 	else
 		addr = ft_strdup("0x0");
-	if (modifiers.flags.minus == 1)
+	if (modifiers.fl.minus == 1)
 		nbyte = left_justify(modifiers, addr, 0);
 	else
 		nbyte = right_justify(modifiers, addr, 0);

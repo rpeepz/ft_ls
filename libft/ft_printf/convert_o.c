@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 20:59:54 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:09:16 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 04:37:40 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 /*
 **	o, O	The int (or variant) argument is converted to unsigned octal.
@@ -28,10 +28,10 @@ static int		pad_width(t_mods mod, int len, int nbyte, int neg)
 	{
 		if (mod.width > len)
 		{
-			IF_THEN(mod.flags.fzero && mod.prcsn == -1, pad_char = "0");
+			IF_THEN(mod.fl.fzero && mod.prcsn == -1, pad_char = "0");
 			if (nbyte == 0)
 			{
-				if (mod.flags.space && mod.flags.fzero)
+				if (mod.fl.space && mod.fl.fzero)
 					nbyte += write(1, " ", 1);
 				while (mod.width - len - neg > nbyte)
 					nbyte += (int)write(1, pad_char, 1);
@@ -52,14 +52,7 @@ static	int		right_justify(t_mods mod, char *num, int nbyte)
 	int		len;
 
 	len = (int)ft_strlen(num);
-	if (mod.flags.fplus && mod.flags.fzero && mod.prcsn < 0 &&
-		mod.width > len && (mod.flags.space = -1))
-		nbyte += (int)write(1, "+", 1);
-	nbyte = pad_width(mod, len, nbyte, mod.flags.fplus);
-	if ((mod.flags.fplus && mod.flags.space != -1))
-		nbyte += (int)write(1, "+", 1);
-	if (!mod.flags.fplus && mod.flags.space && !nbyte)
-		nbyte += (int)write(1, " ", 1);
+	nbyte = pad_width(mod, len, nbyte, mod.fl.fplus);
 	if (mod.prcsn > len)
 		while ((mod.prcsn--) - len > 0)
 			nbyte += (int)write(1, "0", 1);
@@ -71,9 +64,9 @@ static	int		left_justify(t_mods mod, char *num, int nbyte)
 	int		len;
 
 	len = (int)ft_strlen(num);
-	if (mod.flags.fplus)
+	if (mod.fl.fplus)
 		nbyte += (int)write(1, "+", 1);
-	else if (mod.flags.space)
+	else if (mod.fl.space)
 		nbyte += (int)write(1, " ", 1);
 	while (mod.prcsn-- > len)
 		nbyte += (int)write(1, "0", 1);
@@ -121,14 +114,14 @@ int				convert_o(t_mods modifiers, va_list ap, int i)
 		tmp = num_string_u_base(num, 8);
 	else
 		tmp = ft_uitoa_base(num, 8);
-	if (modifiers.flags.pound && tmp[0] != '0')
+	if (modifiers.fl.pound && tmp[0] != '0')
 		str = ft_strjoin("0", tmp);
 	else
 		str = ft_strdup(tmp);
 	free(tmp);
-	IF_THEN(str[0] == '0' && modifiers.prcsn == 0 && !modifiers.flags.pound,
+	IF_THEN(str[0] == '0' && modifiers.prcsn == 0 && !modifiers.fl.pound,
 			str[0] = '\0');
-	if (modifiers.flags.minus == 1)
+	if (modifiers.fl.minus == 1)
 		nbyte += left_justify(modifiers, str, nbyte);
 	else
 		nbyte += right_justify(modifiers, str, nbyte);

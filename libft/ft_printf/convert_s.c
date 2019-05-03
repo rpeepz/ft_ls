@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 20:59:06 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/01 20:09:55 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 03:31:08 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ft_printf.h"
+#include "../includes/ft_printf.h"
 
 /*
 **	s	The char* argument is expected to be a pointer to an array of character
@@ -39,7 +39,7 @@ static int	right_justify(t_mods mod, char *s, int len)
 	int		nbyte;
 
 	nbyte = 0;
-	if (mod.flags.fzero == 1)
+	if (mod.fl.fzero == 1)
 	{
 		while (mod.width-- > len)
 			nbyte += (int)write(1, "0", 1);
@@ -66,7 +66,7 @@ int			convert_s(t_mods modifiers, va_list ap)
 		s2 = ft_strndup(s, modifiers.prcsn);
 	else
 		s2 = ft_strdup(s);
-	if ((len = LEN(s2)) && modifiers.flags.minus == 1)
+	if ((len = LEN(s2)) && modifiers.fl.minus == 1)
 	{
 		if (modifiers.width <= len)
 			nbyte += (int)write(1, s2, len);
