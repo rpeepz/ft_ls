@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/03 12:30:07 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/05 18:21:51 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,35 +117,46 @@ OBJ		+= $(patsubst %.c,%.o,$(PRINTF))
 all:	$(NAME)
 
 $(NAME):
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
-		@gcc $(CFLAGS) -c $(addprefix srcs/,$(SRCS)) $(addprefix libft/ft_printf/,$(PRINTF)) $(addprefix libft/,$(LIBFT)) $(INCL)
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r"
+		@gcc $(CFLAGS) -c $(addprefix libft/ft_printf/,$(PRINTF)) $(INCL)
+
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r"
+		@gcc $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)
+
+#		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+#		@gcc $(CFLAGS) -c $(addprefix srcs/,$(SRCS)) $(INCL)
+
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r"
 		@ar -rcs $(ARCHIVE) $(OBJ)
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r"
 		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG)OK!$(NC)]\n"
+
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG)OK!$(NC)]\n"
 		@printf "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]\n"
 
 clean:
-		@printf "[$(ARCHIVE)] Rm object\n$(NC)"
+		@printf "[$(GREEN)obj$(NC)]\t\tRm objects\n"
 		@rm -rf $(OBJ)
 
 1mo:
 		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
 		@rm -rf $(NAME)
+
 		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
 		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
+
 		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
 		@rm -rf $(OBJ)
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+
 		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG)OK!$(NC)]\n"
 
 fclean: clean
-		@printf "[$(GREEN)$(NAME)$(NC)] Rm binary\n"
+		@printf "[$(GREEN)$(ARCHIVE)$(NC)]\tRm archive\n"
 		@rm -rf $(ARCHIVE)
-		@rm -rf $(NAME)
+		@printf "[$(RED)$(NAME)$(NC)]\t\tRm binary\n"
 		@rm -rf $(NAME).dSYM
+		@rm -rf $(NAME)
 
 re: fclean all
 

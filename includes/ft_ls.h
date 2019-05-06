@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/03 11:50:22 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/05 21:47:54 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define IS_FLAG(x) (x == 'R' || x == 'a' || x == 'l' || x == 'r' || x == 't')
 # define ISNT_FLAG(x) (x != 'R' && x != 'a' && x != 'l' && x != 'r' && x != 't')
 # define IF_BREAK(x) if(x) {break ;}
+
 /*
 **STRUCTURES
 */
@@ -35,7 +36,6 @@ typedef	struct			s_file
 	char				*path;
 	char				*name;
 	char				*full_path;
-	char				flags;
 	struct s_file		*next;
 }						t_file;
 
