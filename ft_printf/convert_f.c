@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 19:04:29 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/03 05:23:01 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/05 22:42:13 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static	int		left_justify(t_mods mod, char *num, int nbyte, int neg)
 	int		len;
 
 	len = LEN(num);
-	IF_THEN(mod.fl.pound && !ft_strchr(num, '.'), len += 1);
+	IF_THEN(mod.fl.pound && mod.prcsn == 0, len += 1);
 	if (neg == 1)
 		nbyte += (int)write(1, "-", 1);
 	else if (neg == 0)
@@ -95,9 +95,10 @@ static	int		left_justify(t_mods mod, char *num, int nbyte, int neg)
 	}
 	while (mod.prcsn-- > len)
 		nbyte += (int)write(1, "0", 1);
-	if (mod.fl.pound && !ft_strchr(num, '.'))
-		nbyte += ((int)write(1, num, len - 1) + (int)write(1, ".", 1));
-	else
+	if (mod.fl.pound && mod.prcsn == 0)
+		IF_THEN(nbyte += (int)write(1, num, len - 1),
+		nbyte += (int)write(1, ".", 1));
+	if (!mod.fl.pound && mod.prcsn == 0)
 		nbyte += (int)write(1, num, len);
 	while (nbyte < mod.width)
 		nbyte += (int)write(1, " ", 1);
@@ -113,7 +114,7 @@ static char		**num_string_modld(long double num, t_mods mod, int add_zeros)
 
 	IF_THEN(mod.prcsn == -1, mod.prcsn = 6);
 	str = (char **)malloc(sizeof(*str) * 3);
-	str[0] = ft_itoa(get_pre_float(num, 0));
+	str[0] = num_string_base(get_pre_float(num, 0), 10);
 	str[2] = 0;
 	IF_RETURN(mod.prcsn == 0 && (str[1] = ft_strdup("\0")), str);
 	tmp = num - (int)num;
@@ -121,7 +122,7 @@ static char		**num_string_modld(long double num, t_mods mod, int add_zeros)
 	IF_THEN(mod.prcsn <= 15, tmp += 0.0000000000000001);
 	while (mod.prcsn-- > 0)
 		tmp *= 10.0;
-	str[1] = ft_itoa((int)tmp);
+	str[1] = num_string_base((int)tmp, 10);
 	if ((len = LEN(str[1])) < add_zeros)
 	{
 		zeros = ft_strcnew(add_zeros, '0');
@@ -148,7 +149,7 @@ int				convert_f(t_mods modifiers, va_list ap, int i)
 	neg = (num < 0.0) ? 1 : 0;
 	IF_THEN(neg == 1, num *= -1);
 	str = num_string_modld(num, modifiers, 0);
-	if (str[1])
+	if (str[1][0] != '\0')
 		to_print = str_3join(str[0], ".", str[1]);
 	else
 		to_print = ft_strdup(str[0]);

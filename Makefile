@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/05 18:21:51 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/06 16:58:11 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,7 +118,7 @@ all:	$(NAME)
 
 $(NAME):
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r"
-		@gcc $(CFLAGS) -c $(addprefix libft/ft_printf/,$(PRINTF)) $(INCL)
+		@gcc $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
 
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r"
 		@gcc $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)

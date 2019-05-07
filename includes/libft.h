@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 21:14:12 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/03 10:20:28 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/03 00:33:24 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char				*ft_uitoa_base(unsigned int n, int base);
 char				*ft_itoa(int n);
 void				ft_putchar(char c);
 void				ft_putstr(const char *s);
-void				ft_putnstr(const char *s, int len);
 void				ft_putendl(char const *s);
 void				ft_putnbr(int n);
 void				ft_putchar_fd(char c, int fd);
