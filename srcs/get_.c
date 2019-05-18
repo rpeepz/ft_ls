@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/18 02:09:02 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/18 03:52:24 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,55 @@ char			get_flags(char **av, char mask, int i, int j)
 	return (mask);
 }
 
-int				get_dirs(char **av, char flags, int i, int j)
+t_file			*t_filedel(t_file *file)
 {
-	flags = 0;
-	return (0);
-	while (av[i])
-	{
-		if (av[i][j] == '-')
-			i++;
-		else
-			break ;
-	}
-	if (*av)
-	return (1);
+	if (file->path != NULL)
+		free(file->path);
+	if (file->name != NULL)
+		free(file->name);
+	if (file->full_path != NULL)
+		free(file->full_path);
+	if (file->next != NULL)
+		t_filedel(file->next);
+	else
+		free(file);
+	return (NULL);
 }
+
+t_file			*t_fileinit(void)
+{
+	t_file	*file;
+
+	if (!(file = ft_memalloc(sizeof(t_file))))
+		return (NULL);
+	if (!(file->path = (char *)ft_memalloc(sizeof(char) * 2)) ||
+		!(file->name = (char *)ft_memalloc(sizeof(char) * 2)) ||
+		!(file->full_path = (char *)ft_memalloc(sizeof(char) * 3)))
+		return (t_filedel(file));
+	file->path = ft_strcpy(file->path, ".");
+	file->name = ft_strcpy(file->name, ".");
+	file->full_path = ft_strcpy(file->full_path, "./");
+	file->next = NULL;
+	return (file);
+}
+
+t_file			*get_dirs(char **av, char flags, int i, int j)
+{
+	t_file	*paths;
+
+	if (flags)
+		while (av[i])
+		{
+			if (av[i][j] == '-')
+				i++;
+			else
+				break ;
+		}
+	if (!(paths = t_fileinit()))
+		return (t_filedel(paths));
+	return (paths);
+}
+/*
+** TODO ^
+** grab all paths excluding .
+*/
