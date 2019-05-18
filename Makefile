@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/06 16:58:11 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/18 01:35:10 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,42 +117,25 @@ OBJ		+= $(patsubst %.c,%.o,$(PRINTF))
 all:	$(NAME)
 
 $(NAME):
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):|:$(NC)]\r" #PRINT
 		@gcc $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
-
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r" #PRINT
 		@gcc $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)
-
-#		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
+#		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):-:$(NC)]\r" #PRINT
 #		@gcc $(CFLAGS) -c $(addprefix srcs/,$(SRCS)) $(INCL)
-
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r"
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):|:$(NC)]\r" #PRINT
 		@ar -rcs $(ARCHIVE) $(OBJ)
-
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r"
-		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
-
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG)OK!$(NC)]\n"
-		@printf "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]\n"
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r" #PRINT
+		@gcc $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG)OK!$(NC)]\n" #PRINT
+		@printf "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]\n" #PRINT
 
 clean:
-		@printf "[$(GREEN)obj$(NC)]\t\tRm objects\n"
+		@printf "[$(RED)obj$(NC)]\t\tRm objects\n" #PRINT
 		@rm -rf $(OBJ)
-
-1mo:
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
-		@rm -rf $(NAME)
-
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):\:$(NC)]\r"
-		@gcc -g $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
-
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG):/:$(NC)]\r"
-		@rm -rf $(OBJ)
-
-		@printf "[$(GREEN)$(NAME)$(NC)][$(MAG)OK!$(NC)]\n"
 
 fclean: clean
-		@printf "[$(GREEN)$(ARCHIVE)$(NC)]\tRm archive\n"
+		@printf "[$(RED)$(ARCHIVE)$(NC)]\tRm archive\n"
 		@rm -rf $(ARCHIVE)
 		@printf "[$(RED)$(NAME)$(NC)]\t\tRm binary\n"
 		@rm -rf $(NAME).dSYM
@@ -160,4 +143,15 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re 1mo
+1mo:
+		@rm -rf $(NAME)
+		gcc -Wall -Wextra srcs/main.c $(ARCHIVE) -o $(NAME)
+		@printf "done\n" #PRINT
+
+debug:
+		@rm -rf $(NAME).dSYM
+		@rm -rf $(NAME)
+		gcc -g -Wall -Wextra srcs/main.c $(ARCHIVE) -o $(NAME)
+		@printf "done\n" #PRINT
+
+.PHONY: all clean fclean re 1mo debug
