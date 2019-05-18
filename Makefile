@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/18 01:35:10 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/18 02:12:27 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ NC		=\033[0m
 CFLAGS	= -Wall -Werror -Wextra
 INCL	= -I includes/
 
-SRCS 	=
+SRCS 	=get_.c\
+		main.c
 
 PRINTF	= convert_percent.c \
 		convert_b.c \
@@ -110,25 +111,21 @@ LIBFT	= ft_atoi.c \
 		ft_toupper.c \
 		get_next_line.c
 
-OBJ		= $(patsubst %.c,%.o,$(SRCS))
-OBJ		+= $(patsubst %.c,%.o,$(LIBFT))
+OBJ		= $(patsubst %.c,%.o,$(LIBFT))
 OBJ		+= $(patsubst %.c,%.o,$(PRINTF))
 
 all:	$(NAME)
 
 $(NAME):
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):|:$(NC)]\r" #PRINT
-		@gcc $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r" #PRINT
+		@gcc $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r" #PRINT
 		@gcc $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)
-#		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):-:$(NC)]\r" #PRINT
-#		@gcc $(CFLAGS) -c $(addprefix srcs/,$(SRCS)) $(INCL)
-		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):|:$(NC)]\r" #PRINT
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r" #PRINT
 		@ar -rcs $(ARCHIVE) $(OBJ)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r" #PRINT
-		@gcc $(CFLAGS) srcs/main.c $(ARCHIVE) -o $(NAME)
+		@gcc $(CFLAGS) $(addprefix srcs/,$(SRCS)) $(ARCHIVE) -o $(NAME)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG)OK!$(NC)]\n" #PRINT
-		@printf "usage: ./$(NAME) [-$(YELLOW)Ralrt$(NC)] [file ...]\n" #PRINT
 
 clean:
 		@printf "[$(RED)obj$(NC)]\t\tRm objects\n" #PRINT
@@ -145,13 +142,13 @@ re: fclean all
 
 1mo:
 		@rm -rf $(NAME)
-		gcc -Wall -Wextra srcs/main.c $(ARCHIVE) -o $(NAME)
+		gcc -Wall -Wextra $(addprefix srcs/,$(SRCS)) $(ARCHIVE) -o $(NAME)
 		@printf "done\n" #PRINT
 
 debug:
 		@rm -rf $(NAME).dSYM
 		@rm -rf $(NAME)
-		gcc -g -Wall -Wextra srcs/main.c $(ARCHIVE) -o $(NAME)
+		gcc -g -Wall -Wextra $(addprefix srcs/,$(SRCS)) $(ARCHIVE) -o $(NAME)
 		@printf "done\n" #PRINT
 
 .PHONY: all clean fclean re 1mo debug
