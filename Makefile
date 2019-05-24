@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/18 02:12:27 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/23 22:15:52 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ CFLAGS	= -Wall -Werror -Wextra
 INCL	= -I includes/
 
 SRCS 	=get_.c\
-		main.c
+		main.c\
+		t_init.c
 
 PRINTF	= convert_percent.c \
 		convert_b.c \
@@ -118,9 +119,9 @@ all:	$(NAME)
 
 $(NAME):
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r" #PRINT
-		@gcc $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
+		@gcc -g $(CFLAGS) -c $(addprefix ft_printf/,$(PRINTF)) $(INCL)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r" #PRINT
-		@gcc $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)
+		@gcc -g $(CFLAGS) -c $(addprefix libft/,$(LIBFT)) $(INCL)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):/:$(NC)]\r" #PRINT
 		@ar -rcs $(ARCHIVE) $(OBJ)
 		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG):\:$(NC)]\r" #PRINT
@@ -140,15 +141,15 @@ fclean: clean
 
 re: fclean all
 
-1mo:
+1mo:	clean
 		@rm -rf $(NAME)
 		gcc -Wall -Wextra $(addprefix srcs/,$(SRCS)) $(ARCHIVE) -o $(NAME)
-		@printf "done\n" #PRINT
+		@printf "[$(GREEN)$(NAME)$(NC)]\t\t[$(MAG)OK!$(NC)]\n" #PRINT
 
 debug:
 		@rm -rf $(NAME).dSYM
 		@rm -rf $(NAME)
 		gcc -g -Wall -Wextra $(addprefix srcs/,$(SRCS)) $(ARCHIVE) -o $(NAME)
-		@printf "done\n" #PRINT
+		@printf "[$(YELLOW)debug$(NC)]\t\t[$(MAG)OK!$(NC)]\n" #PRINT
 
 .PHONY: all clean fclean re 1mo debug
