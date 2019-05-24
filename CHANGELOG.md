@@ -1,4 +1,4 @@
-# Changelog ![alt text][log logo]
+# Changelog <img src="https://png.pngtree.com/svg/20170719/e584c33d9e.svg" height="48" width="48">
 All notable changes to this project will be documented in this file.
 
 - This CHANGELOG file to hopefully serve as a way to keep track of my
@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2019-05-24 ##### 12:02 AM
+## [0.3.0] - 2019-05-24:
+##### 12:02 AM
 ### Added
 - t_file add function
  - ```t_fileadd``` allocate and assign directory names to struct
@@ -78,4 +79,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/rpeepz/ft_ls/commit/d93e694
 [0.0.2]: https://github.com/rpeepz/ft_ls/commit/76bb98f
 [0.0.1]: https://github.com/rpeepz/ft_ls/commit/1060233
-[log logo]: https://png.pngtree.com/svg/20170719/e584c33d9e.svg "pngtree.com"
