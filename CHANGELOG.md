@@ -69,9 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Licence, README, gitignore
 
 #### Resources
-##### [formatting sytle]
-##### [markdown cheatsheet]
-##### [pngtree.com]
+##### [Changelog]
+##### [Markdown]
+##### [Icons]
 
 [0.3.0]: https://github.com/rpeepz/ft_ls/commit/ad75ecc
 [0.2.1]: https://github.com/rpeepz/ft_ls/commit/48059f2d94250433c8a1dc8f9d0607232b4a579c#diff-bb127294234fc295cac1381525c5bc3b
@@ -84,6 +84,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/rpeepz/ft_ls/commit/d93e694
 [0.0.2]: https://github.com/rpeepz/ft_ls/commit/76bb98f
 [0.0.1]: https://github.com/rpeepz/ft_ls/commit/1060233
-[1]: https://github.com/olivierlacan/keep-a-changelog/blob/master/CHANGELOG.md
-[2]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-[3]: https://pngtree.com/free-icon
+[Changelog]: https://github.com/olivierlacan/keep-a-changelog/blob/master/CHANGELOG.md "Formatting style"
+[Markdown]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Cheat sheet"
+[Icons]: https://pngtree.com/free-icon "png tree"
