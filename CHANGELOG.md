@@ -68,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Licence, README, gitignore
 
-#### Resources
+
+### Resources
 ##### [Changelog]
 ##### [Markdown]
 ##### [Icons]
