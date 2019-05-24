@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/18 03:51:20 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/23 17:52:18 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 typedef	struct		s_file
 {
+	int				index;
 	char			*path;
 	char			*name;
 	char			*full_path;

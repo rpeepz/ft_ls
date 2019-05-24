@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/18 03:52:24 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/23 22:14:11 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,55 +50,48 @@ char			get_flags(char **av, char mask, int i, int j)
 	return (mask);
 }
 
-t_file			*t_filedel(t_file *file)
+static int		t_fileadd(t_file **apath, char *dir)
 {
-	if (file->path != NULL)
-		free(file->path);
-	if (file->name != NULL)
-		free(file->name);
-	if (file->full_path != NULL)
-		free(file->full_path);
-	if (file->next != NULL)
-		t_filedel(file->next);
-	else
-		free(file);
-	return (NULL);
-}
+	t_file	*head;
+	t_file	*to_add;
 
-t_file			*t_fileinit(void)
-{
-	t_file	*file;
-
-	if (!(file = ft_memalloc(sizeof(t_file))))
-		return (NULL);
-	if (!(file->path = (char *)ft_memalloc(sizeof(char) * 2)) ||
-		!(file->name = (char *)ft_memalloc(sizeof(char) * 2)) ||
-		!(file->full_path = (char *)ft_memalloc(sizeof(char) * 3)))
-		return (t_filedel(file));
-	file->path = ft_strcpy(file->path, ".");
-	file->name = ft_strcpy(file->name, ".");
-	file->full_path = ft_strcpy(file->full_path, "./");
-	file->next = NULL;
-	return (file);
+	if (!(to_add = ft_memalloc(sizeof(t_file))))
+		return (1);
+	to_add->next = NULL;
+	if (!(to_add->path = (char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))) ||
+		!(to_add->name = (char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))) ||
+		!(to_add->full_path =
+							(char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))))
+		return (1);
+	head = *apath;
+	while (head->next)
+		head = head->next;
+	to_add->index = head->index + 1;
+	to_add->path = ft_strcpy(to_add->path, dir);
+	to_add->name = ft_strcpy(to_add->name, dir);
+	to_add->full_path = ft_strcpy(to_add->full_path, dir);
+	head->next = to_add;
+	return (0);
 }
 
 t_file			*get_dirs(char **av, char flags, int i, int j)
 {
 	t_file	*paths;
 
-	if (flags)
-		while (av[i])
-		{
-			if (av[i][j] == '-')
-				i++;
-			else
-				break ;
-		}
 	if (!(paths = t_fileinit()))
 		return (t_filedel(paths));
+	while (av[i])
+	{
+		if (av[i][j] == '-')
+			i++;
+		else
+			break ;
+	}
+	while (av[i])
+	{
+		if (t_fileadd(&paths, av[i]))
+			return (t_filedel(paths));
+		i++;
+	}
 	return (paths);
 }
-/*
-** TODO ^
-** grab all paths excluding .
-*/
