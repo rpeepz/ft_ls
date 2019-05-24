@@ -69,9 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Licence, README, gitignore
 
 #### Resources
-##### [1]
-##### [2]
-##### [3]
+##### [formatting sytle]
+##### [markdown cheatsheet]
+##### [pngtree.com]
 
 [0.3.0]: https://github.com/rpeepz/ft_ls/commit/ad75ecc
 [0.2.1]: https://github.com/rpeepz/ft_ls/commit/48059f2d94250433c8a1dc8f9d0607232b4a579c#diff-bb127294234fc295cac1381525c5bc3b
