@@ -10,9 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.0] - 2019-05-24:
 ##### 12:02 AM
 ### Added
-- t_file add function
- - ```t_fileadd``` allocate and assign directory names to struct
 - struct member `index` to keep track of directory order
+- t_file add function
+  - ```t_fileadd``` allocate and assign directory names to struct
 
 ### Changed
 - output for testing
@@ -25,9 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2019-05-18
 ### Added
-- t_file initailize and t_file delete functions
- - ```t_fileinit``` malloc for directories to process
- - ```t_filedel``` free memory upon error or exit
+- t_file delete and t_file initialize functions
+  - ```t_filedel``` free memory upon error or exit
+  - ```t_fileinit``` malloc for directories to process
 
 ## [0.1.9] - 2019-05-18
 ### Added
@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.3] - 2019-05-18
 ### Changed
 - Makefile
+  - new rules debug and 1mo
 
 ## [0.1.2] - 2019-05-03
 ### Added
@@ -70,20 +71,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Resources
+---
 ##### [Changelog]
 ##### [Markdown]
 ##### [Icons]
 
-[0.3.0]: https://github.com/rpeepz/ft_ls/commit/ad75ecc
+[0.3.0]: https://github.com/rpeepz/ft_ls/commit/ad75ecc#diff-d73dc5ad42aef24c11e21ceff832111b
 [0.2.1]: https://github.com/rpeepz/ft_ls/commit/48059f2d94250433c8a1dc8f9d0607232b4a579c#diff-bb127294234fc295cac1381525c5bc3b
-[0.2.0]: https://github.com/rpeepz/ft_ls/commit/ac49840
+[0.2.0]: https://github.com/rpeepz/ft_ls/commit/ac49840#diff-4840f30cac8e8fd22fe4e253a93849ae
 [0.1.9]: https://github.com/rpeepz/ft_ls/commit/f5ef9426c8a0e33f0deecb4d697b35e1cadc1be3#diff-4840f30cac8e8fd22fe4e253a93849ae
-[0.1.3]: https://github.com/rpeepz/ft_ls/commit/d869953
-[0.1.2]: https://github.com/rpeepz/ft_ls/commit/2fce750
-[0.1.1]: https://github.com/rpeepz/ft_ls/commit/2b2e6b4
-[0.1.0]: https://github.com/rpeepz/ft_ls/commit/e138037
-[0.0.3]: https://github.com/rpeepz/ft_ls/commit/d93e694
-[0.0.2]: https://github.com/rpeepz/ft_ls/commit/76bb98f
+[0.1.3]: https://github.com/rpeepz/ft_ls/commit/d869953#diff-b67911656ef5d18c4ae36cb6741b7965
+[0.1.2]: https://github.com/rpeepz/ft_ls/commit/2fce750#diff-6fc897d9b03f1b5eda0fdec77e38b736
+[0.1.1]: https://github.com/rpeepz/ft_ls/commit/2b2e6b4#diff-9794b6d2b46c4b846fb8244a7fe1aed7
+[0.1.0]: https://github.com/rpeepz/ft_ls/commit/e138037#diff-6fc897d9b03f1b5eda0fdec77e38b736
+[0.0.3]: https://github.com/rpeepz/ft_ls/commit/d93e694#diff-b67911656ef5d18c4ae36cb6741b7965
+[0.0.2]: https://github.com/rpeepz/ft_ls/commit/76bb98f#diff-02bd92faa38aaa6cc0ea75e59937a1ef
 [0.0.1]: https://github.com/rpeepz/ft_ls/commit/1060233
 [Changelog]: https://github.com/olivierlacan/keep-a-changelog/blob/master/CHANGELOG.md "Formatting style"
 [Markdown]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Cheat sheet"
