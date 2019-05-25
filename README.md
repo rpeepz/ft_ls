@@ -13,3 +13,6 @@ LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 `<grp.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`getgrgid`\
 `<stdlib.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`exit, malloc, free`\
 `<unistd.h>`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`write, readlink`
+
+### [Changelog]
+[Changelog]: https://github.com/rpeepz/ft_ls/blob/master/CHANGELOG.md "updates"
