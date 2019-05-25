@@ -15,9 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ```t_fileadd``` allocate and assign directory names to struct
 
 ### Changed
-- output for testing
- - system leaks
- - all struct members in order
+- print items for testing
+  - system leaks
+  - contents of struct in order
 
 ## [0.2.1] - 2019-05-23
 ### Added
