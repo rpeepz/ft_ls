@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/23 22:15:52 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/26 02:22:12 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,14 @@ NC		=\033[0m
 CFLAGS	= -Wall -Werror -Wextra
 INCL	= -I includes/
 
-SRCS 	=get_.c\
+SRCS 	=ft_ls.c\
+		get_.c\
 		main.c\
 		t_init.c
 
-PRINTF	= convert_percent.c \
+PRINTF	= finders.c \
+		do_things.c \
+		convert_percent.c \
 		convert_b.c \
 		convert_c.c \
 		convert_f.c \
@@ -37,9 +40,11 @@ PRINTF	= convert_percent.c \
 		convert_s.c \
 		convert_u.c \
 		convert_x.c \
-		do_things.c \
+		c_to_buf.c \
+		i_to_buf.c \
+		s_to_buf.c \
 		get_mods.c \
-		finders.c 
+		get_mod.c
 
 LIBFT	= ft_atoi.c \
 		ft_bzero.c \
@@ -78,6 +83,7 @@ LIBFT	= ft_atoi.c \
 		ft_putnbr_fd.c \
 		ft_putstr.c \
 		ft_putstr_fd.c \
+		ft_sprintf.c \
 		ft_strcat.c \
 		ft_strchr.c \
 		ft_strchri.c \
