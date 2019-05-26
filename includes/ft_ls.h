@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/23 17:52:18 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 02:15:41 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <stdio.h>
+# include <errno.h>
 # include <time.h>
 # include <pwd.h>
 # include <grp.h>
@@ -41,9 +42,11 @@ typedef	struct		s_file
 }					t_file;
 
 char				get_flags(char **av, char mask, int i, int j);
-t_file				*get_dirs(char **av, char flags, int i, int j);
-t_file				*t_fileinit();
+t_file				*get_dirs(char **av, int i, int j);
+t_file				*t_fileinit(char *param);
 t_file				*t_filedel(t_file *file);
+
+int					ft_ls(t_file *paths, char flags);
 
 /*
 **	MANDATORY FLAGS
