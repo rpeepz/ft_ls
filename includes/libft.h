@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 21:14:12 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/06 19:48:12 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 02:15:40 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "get_next_line.h"
 # include "ft_pipewrench.h"
 # include "ft_printf.h"
+# include "ft_sprintf.h"
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
