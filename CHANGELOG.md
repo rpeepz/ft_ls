@@ -7,8 +7,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2019-05-24
+### Added
+- new source file `ft_ls.c`
+  - displays contents of current directory or paths specified from the command line
+#### other additions [1.0.1]
+- sprintf and helper functions
+  - ```ft_sprintf``` takes an argument and stores in a buffer of predefined size
+
 ## [0.3.0] - 2019-05-24
-##### 12:02 AM
 ### Added
 - struct member `index` to keep track of directory order
 - t_file add function
@@ -76,6 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ##### [Markdown]
 ##### [Icons]
 
+[1.0.1]: https://github.com/rpeepz/ft_ls/commit/fb3145eb3def48e5a790b306e86e3b48d139011d#diff-f4bab6f0038ea5d72de75b59713acd3c
+[1.0.0]: https://github.com/rpeepz/ft_ls/commit/5b05676d39578af7899a9a8c62be5e9407c70af1#diff-72a4340a3a0331efc1b5e08621e0bccc
 [0.3.0]: https://github.com/rpeepz/ft_ls/commit/ad75ecc#diff-d73dc5ad42aef24c11e21ceff832111b
 [0.2.1]: https://github.com/rpeepz/ft_ls/commit/48059f2d94250433c8a1dc8f9d0607232b4a579c#diff-bb127294234fc295cac1381525c5bc3b
 [0.2.0]: https://github.com/rpeepz/ft_ls/commit/ac49840#diff-4840f30cac8e8fd22fe4e253a93849ae
