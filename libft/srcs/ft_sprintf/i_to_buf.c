@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_i.c                                        :+:      :+:    :+:   */
+/*   i_to_buf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/25 20:58:07 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/03 03:31:08 by rpapagna         ###   ########.fr       */
+/*   Created: 2019/05/25 23:12:09 by rpapagna          #+#    #+#             */
+/*   Updated: 2019/05/26 16:34:04 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "../../includes/libft.h"
 
-/*
-**	d, i	The int (or variant) argument is converted to signed decimal.
-**			The precision, if any, gives the minimum number of digits
-**			that must appear; if the converted value requires fewer digits,
-**			it is padded on the left with zeros.
-*/
-
-static int		pad_width(t_mods mod, int len, int nbyte, int neg)
+static int		pad_width(char *buf, int len, int nbyte, t_mod mod)
 {
 	char	*pad_char;
 
@@ -32,69 +25,106 @@ static int		pad_width(t_mods mod, int len, int nbyte, int neg)
 			if (nbyte == 0)
 			{
 				if (mod.fl.space && mod.fl.fzero)
-					nbyte += write(1, " ", 1);
-				while (mod.width - len - neg > nbyte)
-					nbyte += (int)write(1, pad_char, 1);
+				{
+					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
+				}
+				while (mod.width - len - mod.neg > nbyte)
+				{
+					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
+				}
 			}
 			else
 				while (mod.width - len > nbyte)
-					nbyte += (int)write(1, pad_char, 1);
+				{
+					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
+				}
 		}
 	}
 	else
-		while (mod.width - mod.prcsn - neg > nbyte)
-			nbyte += (int)write(1, pad_char, 1);
+		while (mod.width - mod.prcsn - mod.neg > nbyte)
+		{
+			ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
+		}
 	return (nbyte);
 }
 
-static	int		right_justify(t_mods mod, char *num, int nbyte, int neg)
+static int		right_justify(char *buf, char *num, t_mod mod)
 {
 	int		len;
+	int		nbyte;
 
-	if ((len = LEN(num)) && neg == 1)
+	nbyte = 0;
+	len = LEN(num);
+	if (mod.neg == 1)
 	{
 		if (mod.fl.fzero && mod.prcsn < 0 && mod.width > len)
-			nbyte += (int)write(1, "-", 1);
-		nbyte = pad_width(mod, len, nbyte, neg);
+		{
+			ADD_ONE_TO_BUFF(buf, "-", nbyte);
+		}
+		nbyte = pad_width(buf, len, nbyte, mod);
 		if (!mod.fl.fzero || mod.prcsn > 0 || !nbyte)
-			nbyte += (int)write(1, "-", 1);
+		{
+			ADD_ONE_TO_BUFF(buf, "-", nbyte);
+		}
 	}
-	else if (neg == 0)
+	else if (mod.neg == 0)
 	{
 		if (mod.fl.fplus && mod.fl.fzero && mod.prcsn < 0 &&
 			mod.width > len && (mod.fl.space = -1))
-			nbyte += (int)write(1, "+", 1);
-		nbyte = pad_width(mod, len, nbyte, mod.fl.fplus);
+		{
+			ADD_ONE_TO_BUFF(buf, "+", nbyte);
+		}
+		mod.neg = mod.fl.fplus;
+		nbyte = pad_width(buf, len, nbyte, mod);
 		if ((mod.fl.fplus && mod.fl.space != -1))
-			nbyte += (int)write(1, "+", 1);
+		{
+			ADD_ONE_TO_BUFF(buf, "+", nbyte);
+		}
 		if (!mod.fl.fplus && mod.fl.space && !nbyte)
-			nbyte += (int)write(1, " ", 1);
+		{
+			ADD_ONE_TO_BUFF(buf, " ", nbyte);
+		}
 	}
 	if (mod.prcsn > len)
 		while ((mod.prcsn--) - len > 0)
-			nbyte += (int)write(1, "0", 1);
-	return (nbyte += (int)write(1, num, len));
+		{
+			ADD_ONE_TO_BUFF(buf, "0", nbyte);
+		}
+	ADD_TO_BUFF(buf, num, nbyte, len);
+	return (nbyte);
 }
 
-static	int		left_justify(t_mods mod, char *num, int nbyte, int neg)
+static	int		left_justify(char *buf, char *num, t_mod mod)
 {
+	int		nbyte;
 	int		len;
 
+	nbyte = 0;
 	len = (int)ft_strlen(num);
-	if (neg == 1)
-		nbyte += (int)write(1, "-", 1);
-	else if (neg == 0)
+	if (mod.neg == 1)
+	{
+		ADD_ONE_TO_BUFF(buf, "-", nbyte);
+	}
+	else if (mod.neg == 0)
 	{
 		if (mod.fl.fplus)
-			nbyte += (int)write(1, "+", 1);
+		{
+			ADD_ONE_TO_BUFF(buf, "+", nbyte);
+		}
 		else if (mod.fl.space)
-			nbyte += (int)write(1, " ", 1);
+		{
+			ADD_ONE_TO_BUFF(buf, " ", nbyte);
+		}
 	}
 	while (mod.prcsn-- > len)
-		nbyte += (int)write(1, "0", 1);
-	nbyte += (int)write(1, num, len);
+	{
+		ADD_ONE_TO_BUFF(buf, "0", nbyte);
+	}
+	ADD_TO_BUFF(buf, num, nbyte, len);
 	while (nbyte < mod.width)
-		nbyte += (int)write(1, " ", 1);
+	{
+		ADD_ONE_TO_BUFF(buf, " ", nbyte);
+	}
 	return (nbyte);
 }
 
@@ -121,22 +151,22 @@ static int64_t	convert_length(int length, va_list ap)
 	return (d);
 }
 
-int				convert_i(t_mods modifiers, va_list ap)
+int				i_to_buf(char *buf, t_mod modifiers, va_list ap)
 {
 	int64_t	num;
 	int		nbyte;
-	int		neg;
 	char	*str;
 
 	nbyte = 0;
 	num = convert_length(modifiers.length, ap);
-	neg = (num < 0) ? 1 : 0;
-	IF_THEN(neg == 1, num *= -1);
+	modifiers.neg = (num < 0) ? 1 : 0;
+	IF_THEN(modifiers.neg == 1, num *= -1);
 	str = num_string_base(num, 10);
 	IF_THEN(str[0] == '0' && modifiers.prcsn == 0, str[0] = '\0');
 	if (modifiers.fl.minus == 1)
-		nbyte += left_justify(modifiers, str, nbyte, neg);
+		nbyte += left_justify(buf, str, modifiers);
 	else
-		nbyte += right_justify(modifiers, str, nbyte, neg);
-	IF_RETURN(1, (ft_pipewrench("-s", str) + nbyte) - 1);
+		nbyte += right_justify(buf, str, modifiers);
+	free(str);
+	return (nbyte);
 }

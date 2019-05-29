@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_to_buf.c                                         :+:      :+:    :+:   */
+/*   convert_c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 01:39:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 01:47:40 by rpapagna         ###   ########.fr       */
+/*   Created: 2019/04/09 18:52:45 by rpapagna          #+#    #+#             */
+/*   Updated: 2019/05/26 16:35:36 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_sprintf.h"
+#include "../../includes/libft.h"
 
-static int		left_justify(char *buf, char c, int width)
+/*
+**	c	The int argument is converted to an unsigned char
+**		and the resulting character is written.
+*/
+
+static int		left_justify(int width, unsigned char c)
 {
 	int		n;
 
-	n = 0;
-	ADD_ONE_TO_BUFF(buf, &c, n);
+	n = (int)write(1, &c, 1);
 	if (n < width)
 		while (n < width)
-		{
-			ADD_ONE_TO_BUFF(buf, " ", n);
-		}
+			n += (int)write(1, " ", 1);
 	return (n);
 }
 
-static int		right_justify(char *buf, char c, int width, int fzero)
+static int		right_justify(int width, int fzero, unsigned char c)
 {
 	int		n;
 
@@ -34,36 +36,29 @@ static int		right_justify(char *buf, char c, int width, int fzero)
 	if (fzero)
 	{
 		while (width-- > 1)
-		{
-			ADD_ONE_TO_BUFF(buf, "0", n);
-		}
+			n += (int)write(1, "0", 1);
 	}
 	else
 	{
 		while (width-- > 1)
-		{
-			ADD_ONE_TO_BUFF(buf, " ", n);
-		}
+			n += (int)write(1, " ", 1);
 	}
-	ADD_ONE_TO_BUFF(buf, &c, n);
+	n += (int)write(1, &c, 1);
 	return (n);
 }
 
-int				c_to_buf(char *buf, t_mod modifiers, va_list ap)
+int				convert_c(t_mods modifiers, va_list ap)
 {
-	char	c;
-	int		n;
+	unsigned char	c;
 
 	c = va_arg(ap, int);
 	if (modifiers.fl.minus == 1)
 	{
-		return (left_justify(buf, c, modifiers.width));
+		return (left_justify(modifiers.width, c));
 	}
 	if (modifiers.width > 1)
 	{
-		return (right_justify(buf, c, modifiers.width, modifiers.fl.fzero));
+		return (right_justify(modifiers.width, modifiers.fl.fzero, c));
 	}
-	n = 0;
-	ADD_ONE_TO_BUFF(buf, &c, n);
-	return (n);
+	return ((int)write(1, &c, 1));
 }

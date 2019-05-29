@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:28:19 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 02:02:04 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:31:48 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_sprintf.h"
+#include "../includes/libft.h"
 
 /*
 **	Produces a string of text stored in a buffer with variable size according

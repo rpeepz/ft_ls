@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_mod.c                                          :+:      :+:    :+:   */
+/*   get_mods.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/25 23:49:35 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/25 23:54:55 by rpapagna         ###   ########.fr       */
+/*   Created: 2019/04/09 20:18:14 by rpapagna          #+#    #+#             */
+/*   Updated: 2019/05/26 16:35:36 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_sprintf.h"
+#include "../../includes/libft.h"
 
-static t_fl		get_flags(char **str)
+static t_flag	get_flags(char **str)
 {
-	t_fl	flag;
+	t_flag	flags;
 
-	flag.space = 0;
-	flag.pound = 0;
-	flag.fplus = 0;
-	flag.minus = 0;
-	flag.fzero = 0;
+	flags.space = 0;
+	flags.pound = 0;
+	flags.fplus = 0;
+	flags.minus = 0;
+	flags.fzero = 0;
 	while (is_flag(**str))
 	{
-		if (**str == ' ')
-			flag.space = 1;
-		else if (**str == '#')
-			flag.pound = 1;
-		else if (**str == '+')
-			flag.fplus = 1;
-		else if (**str == '-')
-			flag.minus = 1;
-		else if (**str == '0')
-			flag.fzero = 1;
+		set_flags(&flags, **str);
 		(*str)++;
 	}
-	return (flag);
+	return (flags);
 }
 
 static int		get_width(char **str, va_list ap)
@@ -119,9 +110,9 @@ static int		get_length(char **str)
 	return (length);
 }
 
-t_mod			get_mod(char **str, va_list ap)
+t_mods			get_mods(char **str, va_list ap)
 {
-	t_mod modifiers;
+	t_mods modifiers;
 
 	modifiers.fl = get_flags(str);
 	modifiers.width = get_width(str, ap);

@@ -6,13 +6,13 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 21:44:14 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/04/30 02:28:27 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:27:11 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-const static char	g_base[] = "0123456789ABCDEF";
+static const char	g_base[] = "0123456789ABCDEF";
 
 char	*ft_itoa_base(int n, int base)
 {

@@ -6,14 +6,14 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 02:15:41 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/28 17:57:33 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include "libft.h"
+# include "../libft/includes/libft.h"
 # include <sys/xattr.h>
 # include <sys/types.h>
 # include <sys/stat.h>

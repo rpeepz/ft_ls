@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpapagna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 18:10:19 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/04/05 15:01:01 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:56:30 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../includes/libft.h"
 
 int		ft_afterline(char **s, char **line, int fd)
 {
@@ -43,12 +43,12 @@ int		get_next_line(const int fd, char **line)
 {
 	static char		*str[MAX_FD];
 	char			*tmp;
-	char			buf[BUFF_SIZE + 1];
+	char			buf[GNL_BUFF_SIZE + 1];
 	int				i;
 
 	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0)
 		return (-1);
-	while (((i = read(fd, buf, BUFF_SIZE)) > 0))
+	while (((i = read(fd, buf, GNL_BUFF_SIZE)) > 0))
 	{
 		if (!str[fd])
 			str[fd] = ft_strnew(0);

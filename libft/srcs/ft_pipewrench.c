@@ -6,11 +6,11 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 18:27:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/04/12 15:59:45 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:31:14 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_pipewrench.h"
+#include "../includes/libft.h"
 
 static int		teflon_tape(va_list ap)
 {
@@ -31,36 +31,68 @@ static int		teflon_tape(va_list ap)
 	return (i + 1);
 }
 
-static int		plunger(va_list ap, int depth)
+static int		screwdriver(va_list ap)
 {
-	if (depth == 2)
-		return (teflon_tape(ap));
+	int		**p_ints;
+	int		i;
+	int		freed;
+
+	i = 0;
+	freed = 0;
+	p_ints = va_arg(ap, int **);
+	while (p_ints[i])
+		i++;
+	while (freed < i && p_ints[freed])
+	{
+		free(p_ints[freed++]);
+	}
+	free(p_ints);
+	return (i + 1);
+}
+
+static int		plunger(va_list ap, int depth, char sig)
+{
 	if (depth > 2)
 		return (1);
-	free(va_arg(ap, char*));
+	if (sig == 's')
+	{
+		if (depth > 1)
+			return (teflon_tape(ap));
+		else
+			free(va_arg(ap, char*));
+	}
+	if (sig == 'i')
+	{
+		if (depth > 1)
+			return (screwdriver(ap));
+		else
+			free(va_arg(ap, int*));
+	}
 	return (depth);
 }
+
+/*
+**	if (ft_isdigit(**str))
+**	{
+**		x = ft_atoi(*str);
+**	}
+*/
 
 static int		pipe_cutter(char **str, va_list ap)
 {
 	int		pointer_depth;
 	int		freed;
-	int		x;
 
 	pointer_depth = 0;
-	while (**str == KEY)
+	while (**str == PIPE_KEY)
 	{
 		(*str)++;
 		pointer_depth += 1;
 	}
 	freed = 0;
-	if (ft_isdigit(**str))
+	if (**str)
 	{
-		x = ft_atoi(*str);
-	}
-	if (**str == 's')
-	{
-		freed += plunger(ap, pointer_depth);
+		freed += plunger(ap, pointer_depth, **str);
 		(*str)++;
 	}
 	return (freed);
@@ -75,7 +107,7 @@ int				ft_pipewrench(char *str, ...)
 	va_start(ap, str);
 	while (*str && freed >= 0)
 	{
-		if (*str != KEY)
+		if (*str != PIPE_KEY)
 		{
 			freed = -1;
 			break ;
