@@ -24,6 +24,7 @@ MAG		=\033[0;35m
 NC		=\033[0m
 
 SRCS 	=ft_ls.c\
+		dash_onef.c\
 		get_.c\
 		main.c\
 		t_init.c

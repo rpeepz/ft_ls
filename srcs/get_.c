@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/25 19:19:00 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/30 05:12:11 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,57 +21,50 @@ static int		copy_print(char *buf, char *msg, char attach, int len)
 	return (1);
 }
 
-char			get_flags(char **av, char mask, int i, int j)
+void			mask_flag(char *mask, char option)
+{
+	if (option == 'R')
+		*mask |= 1 << 0;
+	else if (option == 'a')
+		*mask |= 1 << 1;
+	else if (option == 'l')
+		*mask |= 1 << 2;
+	else if (option == 'r')
+		*mask |= 1 << 3;
+	else if (option == 't')
+		*mask |= 1 << 4;
+	else if (option == '1')
+		*mask |= 1 << 5;
+	else if (option == 'f')
+	{
+		*mask |= 1 << 6;
+		*mask |= 1 << 1;
+	}
+}
+
+char			get_flags(char **av, char bt, int i, int j)
 {
 	char	buf[30];
 
 	while ((av[++i]) && av[i][0] == '-' && (j = 1))
 	{
-		while (IS_FLAG(av[i][j]))
+		while (IS_FLAG(av[i][j]) || IS_FLAG2(av[i][j]))
 		{
-			IF_THEN(av[i][j] == 'R' && (j++), mask |= 1UL << 0);
-			IF_THEN(av[i][j] == 'a' && (j++), mask |= 1UL << 1);
-			IF_THEN(av[i][j] == 'l' && (j++), mask |= 1UL << 2);
-			IF_THEN(av[i][j] == 'r' && (j++), mask |= 1UL << 3);
-			IF_THEN(av[i][j] == 't' && (j++), mask |= 1UL << 4);
 			IF_RETURN(av[i][j] == '-' && copy_print(buf,
-			"ft_ls: illigal option -- ", av[i][j], 0), mask |= 1UL << 6);
+			"ft_ls: illigal option -- ", av[i][j], 0), '~');
+			mask_flag(&bt, av[i][j]);
+			j++;
 		}
-		while (ISNT_FLAG(av[i][j]))
+		while (NOT_FLAG(av[i][j]) && NOT_FLAG2(av[i][j]))
 		{
 			IF_BREAK(!av[i][j]);
 			IF_BREAK(av[i][j] == '-' && !av[i][j + 1]);
-			IF_RETURN(av[i][j] == '-' && av[i][j + 1] && copy_print(buf,
-			"ft_ls: illigal option -- ", '-', 0), mask |= 1UL << 6);
-			IF_RETURN(ISNT_FLAG(av[i][j]) && copy_print(buf,
-			"ft_ls: illigal option -- ", av[i][j], 0), mask |= 1UL << 6);
+			IF_RETURN((av[i][j] == '-' && av[i][j + 1] || (NOT_FLAG(av[i][j]) &&
+				NOT_FLAG2(av[i][j]))) && copy_print(buf,
+				"ft_ls: illigal option -- ", av[i][j], 0), '~');
 		}
 	}
-	return (mask);
-}
-
-static int		t_fileadd(t_file **apath, char *dir)
-{
-	t_file	*head;
-	t_file	*to_add;
-
-	if (!(to_add = ft_memalloc(sizeof(t_file))))
-		return (1);
-	to_add->next = NULL;
-	if (!(to_add->path = (char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))) ||
-		!(to_add->name = (char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))) ||
-		!(to_add->full_path =
-							(char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))))
-		return (1);
-	head = *apath;
-	while (head->next)
-		head = head->next;
-	to_add->index = head->index + 1;
-	to_add->path = ft_strcpy(to_add->path, dir);
-	to_add->name = ft_strcpy(to_add->name, dir);
-	to_add->full_path = ft_strcpy(to_add->full_path, dir);
-	head->next = to_add;
-	return (0);
+	return (bt);
 }
 
 t_file			*get_dirs(char **av, int i, int j)
