@@ -6,14 +6,14 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 21:48:57 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 06:41:23 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/30 11:10:28 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
 static int		dispatch_ls_mode(t_file *paths, char flags)
-{	
+{
 	if (flags ^ 0x62)
 	{
 		ft_ls(paths, flags);
@@ -32,19 +32,19 @@ static void		sort_paths(t_file **paths)
 	tmp = *paths;
 	while (tmp)
 	{
-		if (!(dir = opendir(tmp->path)))
+		dir = opendir(tmp->path);
+		if (!(dir))
 		{
 			if ((lstat(tmp->path, &info)) == 0 && !S_ISDIR(info.st_mode))
-				;//Push down list and add item to front
+				tmp = t_filepushfront(paths, *paths, tmp->index);
 			else
 			{
 				ft_printf("ft_ls: %s: %s\n", tmp->path, strerror(errno));
 				t_filedelone(paths, tmp->index);
 			}
 		}
-		ft_printf("--------------------------\n");
-		ft_printf("DIR: %s\n--------------------------\n", tmp->path);
-		system("leaks ft_ls");
+		else
+			closedir(dir);
 		if (tmp->next)
 			tmp = tmp->next;
 		else

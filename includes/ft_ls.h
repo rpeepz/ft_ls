@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 06:04:08 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/30 10:51:39 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define CURRENT_DIR(x) (x[0] == '.' && x[1] == '\0')
 # define PARENT_DIR(x) (x[0] == '.' && x[1] == '.' && x[2] == '\0')
 # define IF_BREAK(x) if(x) {break ;}
+# define IF_THEN_CONTINUE(x, y) if(x) {(y); continue ;}
 
 /*
 **STRUCTURES
@@ -51,6 +52,7 @@ t_file				*t_fileinit(char *param);
 t_file				*t_filedel(t_file *file);
 int					t_fileadd(t_file **apath, char *dir);
 void				t_filedelone(t_file **apath, int index);
+t_file				*t_filepushfront(t_file **apath, t_file *ref, int index);
 
 int					dash_onef(t_file *paths);
 int					ft_ls(t_file *paths, char flags);
