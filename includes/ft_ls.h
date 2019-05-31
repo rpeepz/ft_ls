@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 10:51:39 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/30 17:59:35 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # include <pwd.h>
 # include <grp.h>
 
+/*
+**	-------MACROS-------
+*/
+
 # define IS_FLAG(x) (x == 'R' || x == 'a' || x == 'l' || x == 'f')
 # define IS_FLAG2(x) (x == 'r' || x == 't' || x == '1')
 # define NOT_FLAG2(x) (x != 'r' && x != 't' && x != '1')
@@ -34,7 +38,7 @@
 # define IF_THEN_CONTINUE(x, y) if(x) {(y); continue ;}
 
 /*
-**STRUCTURES
+**	-------STRUCTS-------
 */
 
 typedef	struct		s_file
@@ -52,7 +56,9 @@ t_file				*t_fileinit(char *param);
 t_file				*t_filedel(t_file *file);
 int					t_fileadd(t_file **apath, char *dir);
 void				t_filedelone(t_file **apath, int index);
-t_file				*t_filepushfront(t_file **apath, t_file *ref, int index);
+t_file				*t_filepushfront(t_file **apath, int index);
+void				sort_paths(t_file **paths);
+void				t_file_mergesort(t_file **apath, char flags);
 
 int					dash_onef(t_file *paths);
 int					ft_ls(t_file *paths, char flags);

@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/28 18:16:08 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/05/30 18:03:27 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS 	=ft_ls.c\
 		dash_onef.c\
 		get_.c\
 		main.c\
+		sort.c\
 		t_init.c
 
 .PHONY: clean 1mo debug
@@ -42,6 +43,8 @@ fclean:
 		@make -C libft fclean
 		@rm -rf $(NAME).dSYM
 		@rm -rf $(NAME)
+		@rm -rf includes/$(NAME).h.gch
+		@rm -rf .nfs.*
 
 re: fclean all
 

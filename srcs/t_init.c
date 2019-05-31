@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:58:30 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 11:26:14 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:03:06 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,10 @@ void			t_filedelone(t_file **apath, int index)
 	}
 }
 
-t_file			*t_filepushfront(t_file **apath, t_file *ref, int index)
+t_file			*t_filepushfront(t_file **apath, int index)
 {
 	t_file		*tmp;
 	t_file		*prev;
-	struct stat	info;
 
 	tmp = *apath;
 	IF_RETURN(tmp->index == index, tmp);
@@ -115,25 +114,8 @@ t_file			*t_filepushfront(t_file **apath, t_file *ref, int index)
 		IF_THEN_CONTINUE(tmp->next, tmp = tmp->next);
 		IF_BREAK(!tmp->next);
 	}
-	ref = *apath;
-	if ((lstat(ref->path, &info)) == 0 && !S_ISDIR(info.st_mode))
-	{
-		while ((lstat(ref->path, &info)) == 0 && !S_ISDIR(info.st_mode))
-		{
-			IF_RETURN(ref->index == index, tmp);
-			prev = ref;
-			ref = ref->next;
-		}
-		ref->next = tmp->next;
-		tmp->next = ref;
-		prev->next = tmp;
-		return (ref->next);
-	}
-	else
-	{
-		prev->next = tmp->next;
-		tmp->next = *apath;
-		*apath = tmp;
-	}
+	prev->next = tmp->next;
+	tmp->next = *apath;
+	*apath = tmp;
 	return (prev);
 }
