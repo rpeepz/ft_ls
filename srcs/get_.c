@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/01 21:34:03 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 01:08:01 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,19 @@
 static void		mask_flag(char *mask, char option)
 {
 	if (option == '1')
-		*mask |= 1 << 0;
+		*mask |= 0x1;
 	else if (option == 'R')
-		*mask |= 1 << 1;
+		*mask |= 0x2;
 	else if (option == 'a')
-		*mask |= 1 << 2;
+		*mask |= 0x4;
 	else if (option == 'f')
-	{
-		*mask |= 1 << 3;
-		*mask |= 1 << 2;
-	}
+		*mask |= 0xC;
 	else if (option == 'l')
-		*mask |= 1 << 4;
+		*mask |= 0x10;
 	else if (option == 'r')
-		*mask |= 1 << 5;
+		*mask |= 0x20;
 	else if (option == 't')
-		*mask |= 1 << 6;
+		*mask |= 0x40;
 }
 
 char			get_flags(char **av, char bt, int i, int j)
@@ -66,7 +63,7 @@ t_file			*get_dirs(char **av, int i, int j)
 
 	while (av[i])
 	{
-		if (av[i][j] == '-')
+		if (av[i][j] == '-' && av[i][j + 1])
 			i++;
 		else
 			break ;
