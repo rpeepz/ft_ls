@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 02:27:04 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 01:43:47 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ int				ft_ls(t_file *paths, char flags)
 	DIR				*dir;
 	struct dirent	*entry;
 
+	flags = 0;
 	while (paths)
 	{
-		if (!(dir = opendir(paths->name)))
+		dir = opendir(paths->name);
+		if (!dir)
 		{
 			ft_printf("ft_ls: %s: %s\n", paths->name, strerror(errno));
 		}
@@ -29,11 +31,11 @@ int				ft_ls(t_file *paths, char flags)
 				ft_printf("%s\n", entry->d_name);
 			closedir(dir);
 		}
-		ft_putchar('\n');
 		if (paths->next)
 			paths = paths->next;
 		else
 			break ;
+		ft_putchar('\n');
 	}
-	return (flags);
+	return (0);
 }
