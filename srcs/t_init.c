@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:58:30 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 18:03:06 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 00:13:03 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_file			*t_filedel(t_file *file)
 	}
 	if (file->next != NULL)
 		t_filedel(file->next);
-	free(file);
+	if (file)
+		free(file);
 	return (NULL);
 }
 
@@ -46,6 +47,7 @@ t_file			*t_fileinit(char *param)
 		!(file->name = ft_strdup(param)) ||
 		!(file->full_path = ft_strdup(param)))
 		return (t_filedel(file));
+	lstat(param, &(file->info));
 	file->index = 1;
 	return (file);
 }
@@ -66,6 +68,7 @@ int				t_fileadd(t_file **apath, char *dir)
 	head = *apath;
 	while (head->next)
 		head = head->next;
+	lstat(dir, &(to_add->info));
 	to_add->index = head->index + 1;
 	to_add->full_path = ft_strcpy(to_add->full_path, dir);
 	head->next = to_add;
@@ -99,23 +102,4 @@ void			t_filedelone(t_file **apath, int index)
 		ft_pipewrench("-s-s-s", tmp->path, tmp->name, tmp->full_path);
 		free(tmp);
 	}
-}
-
-t_file			*t_filepushfront(t_file **apath, int index)
-{
-	t_file		*tmp;
-	t_file		*prev;
-
-	tmp = *apath;
-	IF_RETURN(tmp->index == index, tmp);
-	while (tmp && tmp->index != index)
-	{
-		prev = tmp;
-		IF_THEN_CONTINUE(tmp->next, tmp = tmp->next);
-		IF_BREAK(!tmp->next);
-	}
-	prev->next = tmp->next;
-	tmp->next = *apath;
-	*apath = tmp;
-	return (prev);
 }
