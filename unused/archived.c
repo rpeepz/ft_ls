@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort.c                                             :+:      :+:    :+:   */
+/*   archived.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/30 17:59:59 by rpapagna         ###   ########.fr       */
+/*   Created: 2019/05/30 19:24:08 by rpapagna          #+#    #+#             */
+/*   Updated: 2019/06/02 00:13:11 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,21 @@ void			sort_paths(t_file **paths)
 	}
 }
 
-void			t_file_mergesort(t_file **apath, char flags)
+t_file			*t_filepushfront(t_file **apath, int index)
 {
-	;
+	t_file		*tmp;
+	t_file		*prev;
+
+	tmp = *apath;
+	IF_RETURN(tmp->index == index, tmp);
+	while (tmp && tmp->index != index)
+	{
+		prev = tmp;
+		IF_THEN_CONTINUE(tmp->next, tmp = tmp->next);
+		IF_BREAK(!tmp->next);
+	}
+	prev->next = tmp->next;
+	tmp->next = *apath;
+	*apath = tmp;
+	return (prev);
 }
