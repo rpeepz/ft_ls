@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 22:15:49 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 22:49:52 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int				get_longest(t_file *paths, int type)
 	int		tmp_len;
 
 	pad_width = 0;
-	while (type == 1 && N_DIR(paths) && (tmp_len = LEN(paths->name)))
+	while (type == 1 && paths && N_DIR(paths) && (tmp_len = LEN(paths->name)))
 	{
 		if (pad_width < tmp_len)
 			pad_width = tmp_len;
