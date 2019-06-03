@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 22:28:27 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 23:24:55 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void			ls_display(t_file **apath, char flags, int longest)
 	buf[0] = '\0';
 	while (entry)
 	{
+		if (!(flags & 0x4) && entry->name[0] == '.')
+		{
+			entry = entry->next;
+			continue ;
+		}
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s\n", entry->name);
 		else if (flags & 0x10)
@@ -31,7 +36,7 @@ void			ls_display(t_file **apath, char flags, int longest)
 			ft_sprintf(&buf[LEN(buf)], "%-*s", longest, entry->name);
 		entry = entry->next;
 	}
-	ft_printf("%s\n", buf);
+	ft_printf("%s%c", buf, flags & 0x1 ? '\0' : '\n');
 }
 
 int				print_contents(t_file *paths, char flags)
@@ -69,7 +74,7 @@ void			print_first_files(t_file **apath, char flags, int longest)
 
 	paths = *apath;
 	buf[0] = '\0';
-	while (N_DIR(paths))
+	while (paths && N_DIR(paths))
 	{
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s\n", paths->name);
@@ -81,5 +86,5 @@ void			print_first_files(t_file **apath, char flags, int longest)
 			ft_sprintf(&buf[LEN(buf)], "%-*s", longest, paths->name);
 		paths = paths->next;
 	}
-	ft_printf("%s\n", buf);
+	ft_printf("%s%c", buf, flags & 0x1 ? '\0' : '\n');
 }
