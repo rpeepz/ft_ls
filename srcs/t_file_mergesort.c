@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 02:00:29 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 19:22:07 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,9 @@ void			t_file_mergesort(t_file **apath, char flags, int type)
 	t_file_mergesort(&b, flags, type);
 	*apath = sorted_merge(a, b, flags, type);
 }
+
+/*
+**	Code for this merge sorting algorithm was inspired by this article
+**	https://www.geeksforgeeks.org/merge-sort-for-linked-list/
+**	and adapted by me to fit into my program
+*/
