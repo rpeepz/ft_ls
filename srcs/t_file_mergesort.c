@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 19:22:07 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/02 23:26:22 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ static int		dispatch_sort(t_file *a, t_file *b, char flags, int type)
 {
 	if (type == 1)
 		return (sort_args(a, b, flags));
+	if (flags & 0x20)
+		return (ft_strcmp(a->name, b->name) <= 0 ? 0 : 1);
+	return (ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
 	return (0);
 }
 
