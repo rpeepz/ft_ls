@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 23:24:55 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/03 19:06:32 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int				print_contents(t_file *paths, char flags)
 	{
 		if (get_contents(&entry, &dir))
 		{
-			t_filedel(entry);
+			t_filedel(&entry);
 			return (1);
 		}
 		t_file_mergesort(&entry, flags, 0);
 		ls_display(&entry, flags, get_longest(entry, 0));
 	}
-	t_filedel(entry);
+	t_filedel(&entry);
 	return (0);
 }
 
