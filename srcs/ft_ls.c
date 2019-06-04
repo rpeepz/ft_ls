@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 01:43:47 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/03 19:34:14 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,12 @@
 
 int				ft_ls(t_file *paths, char flags)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-
-	flags = 0;
-	while (paths)
+	if (!(flags & 0x2) && paths->index == 0)
 	{
-		dir = opendir(paths->name);
-		if (!dir)
-		{
-			ft_printf("ft_ls: %s: %s\n", paths->name, strerror(errno));
-		}
-		else
-		{
-			while ((entry = readdir(dir)))
-				ft_printf("%s\n", entry->d_name);
-			closedir(dir);
-		}
-		if (paths->next)
-			paths = paths->next;
-		else
-			break ;
-		ft_putchar('\n');
+		if (print_contents(paths, flags))
+			return (1);
 	}
+	else if (N_DIR(paths))
+		print_first_files(&paths, flags, get_longest(paths, 1));
 	return (0);
 }

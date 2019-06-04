@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/06/02 00:12:29 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/06/02 19:47:16 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ NC		=\033[0m
 SRCS 	=ft_ls.c\
 		get_.c\
 		main.c\
+		print.c\
 		t_file_mergesort.c\
 		t_init.c
 
