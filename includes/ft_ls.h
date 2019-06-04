@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 21:58:29 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/03 19:01:09 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int					get_longest(t_file *paths, int type);
 */
 
 t_file				*t_fileinit(char *param);
-t_file				*t_filedel(t_file *file);
+t_file				*t_filedel(t_file **apath);
 int					t_fileadd(t_file **apath, char *dir);
 void				t_filedelone(t_file **apath, int index);
 

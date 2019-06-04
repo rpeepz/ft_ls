@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/02 22:49:52 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/03 19:05:53 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ t_file			*get_dirs(char **av, int i, int j)
 	if (!av[i])
 	{
 		if (!(paths = t_fileinit(".")))
-			return (t_filedel(paths));
+			return (t_filedel(&paths));
 	}
 	else
 	{
 		if (!(paths = t_fileinit(av[i])))
-			return (t_filedel(paths));
+			return (t_filedel(&paths));
 		while (av[++i])
 			if (t_fileadd(&paths, av[i]))
-				return (t_filedel(paths));
+				return (t_filedel(&paths));
 	}
 	return (paths);
 }
