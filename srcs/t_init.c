@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:58:30 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/03 19:06:38 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/03 19:22:13 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ void			t_filedelone(t_file **apath, int index)
 	while (tmp && tmp->index != index)
 	{
 		prev = tmp;
-		if (tmp->next)
-			tmp = tmp->next;
-		else
-			break ;
+		tmp = tmp->next;
 	}
 	if (tmp && tmp->index == index)
 	{
