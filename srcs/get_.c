@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/03 19:05:53 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/04 14:00:48 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void		mask_flag(char *mask, char option)
 		*mask |= 0x20;
 	else if (option == 't')
 		*mask |= 0x40;
+	else if (option == 'G')
+		*mask |= 0x80;
 }
 
 char			get_flags(char **av, char bt, int i, int j)

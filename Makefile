@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/06/02 19:47:16 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/06/04 14:07:55 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS 	=ft_ls.c\
 		main.c\
 		print.c\
 		t_file_mergesort.c\
-		t_init.c
+		t_init.c\
+		color/ls_color.c
 
 .PHONY: clean 1mo debug
 

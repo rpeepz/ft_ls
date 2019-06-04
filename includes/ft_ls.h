@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/03 19:01:09 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/04 14:03:51 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,44 @@
 # define USAGE "usage: ./ft_ls [-1Raflrt] [file ...]\n"
 # define MALLOC_ERR "malloc error, yo\n"
 # define IS_FLAG(x) (x == '1' || x == 'R' || x == 'a' || x == 'f')
-# define IS_FLAG2(x) (x == 'l' || x == 'r' || x == 't')
+# define IS_FLAG2(x) (x == 'G' || x == 'l' || x == 'r' || x == 't')
 # define NOT_FLAG(x) (x != '1' && x != 'R' && x != 'a' && x != 'f')
-# define NOT_FLAG2(x) (x != 'l' && x != 'r' && x != 't')
+# define NOT_FLAG2(x) (x != 'G' && x != 'l' && x != 'r' && x != 't')
 # define CURRENT_DIR(x) (x[0] == '.' && x[1] == '\0')
 # define PARENT_DIR(x) (x[0] == '.' && x[1] == '.' && x[2] == '\0')
 # define IF_BREAK(x) if(x) {break ;}
 # define IF_THEN_CONTINUE(x, y) if(x) {(y); continue ;}
 # define Y_DIR(t_file) S_ISDIR(t_file->info.st_mode)
 # define N_DIR(t_file) !S_ISDIR(t_file->info.st_mode)
+
+/*
+**	--------------------------------
+**				COLORS
+**	---------------------------------
+*/
+
+# define RED "\e[0;31m"
+# define GRN "\e[0;32m"
+# define YEL "\e[0;33m"
+# define MAG "\e[0;35m"
+# define CYN "\e[0;36m"
+# define WHT "\e[0;37m"
+
+# define BRED "\e[1;31m"
+# define BGRN "\e[1;32m"
+# define BYEL "\e[1;33m"
+# define BMAG "\e[1;35m"
+# define BCYN "\e[1;36m"
+# define BWHT "\e[1;37m"
+
+# define URED "\e[4;31m"
+# define UGRN "\e[4;32m"
+# define UYEL "\e[4;33m"
+# define UMAG "\e[4;35m"
+# define UCYN "\e[4;36m"
+# define UWHT "\e[4;37m"
+
+# define NOCOL "\e[0m"
 
 /*
 **	--------------------------------
@@ -88,6 +117,7 @@ void				t_filedelone(t_file **apath, int index);
 */
 
 int					ft_ls(t_file *paths, char flags);
+int					ls_color(t_file *paths, char flags);
 int					print_contents(t_file *paths, char flags);
 void				print_first_files(t_file **apath, char flags, int longest);
 
