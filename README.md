@@ -1,7 +1,9 @@
 # ft_ls
-Here lies the repo of RPAPAGNA with my own recreation of unix ls command
+Here lies the repo of rpapagna with my own recreation of unix ls command
 
-per 42 circus the allowed funcitons for this project are:
+---
+
+Per 42 circus, the allowed funcitons for this project are:
 
 | Library        | Function      |
 |:-------------- |:------------- |
@@ -15,5 +17,7 @@ per 42 circus the allowed funcitons for this project are:
 | `<stdlib.h>` | `exit, malloc, free` |
 | `<unistd.h>` | `write, readlink` |
 
+
 ### [Changelog]
 [Changelog]: https://github.com/rpeepz/ft_ls/blob/master/CHANGELOG.md "updates"
+follow this link for updates which I've documented from scratch
