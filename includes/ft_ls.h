@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/04 14:03:51 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/04 15:07:44 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@
 # define N_DIR(t_file) !S_ISDIR(t_file->info.st_mode)
 
 /*
-**	--------------------------------
-**				COLORS
-**	---------------------------------
+**	(COLORS)
 */
+
+# define NOCOL "\e[0m"
 
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -70,7 +70,14 @@
 # define UCYN "\e[4;36m"
 # define UWHT "\e[4;37m"
 
-# define NOCOL "\e[0m"
+/*
+**	(PERMISSIONS)
+*/
+
+# define U_EXE(m) (((m) & S_IRWXU) == S_IXUSR)
+# define G_EXE(m) (((m) & S_IRWXG) == S_IXGRP)
+# define O_EXE(m) (((m) & S_IRWXO) == S_IXOTH)
+# define Y_EXE(m) U_EXE(m) || G_EXE(m) || O_EXE(m)
 
 /*
 **	--------------------------------
@@ -117,9 +124,16 @@ void				t_filedelone(t_file **apath, int index);
 */
 
 int					ft_ls(t_file *paths, char flags);
-int					ls_color(t_file *paths, char flags);
 int					print_contents(t_file *paths, char flags);
 void				print_first_files(t_file **apath, char flags, int longest);
+
+/*
+**	(COLOR)
+*/
+
+int					ls_color(t_file *paths, char flags);
+int					color_contents(t_file *paths, char flags);
+void				color_first_files(t_file **apath, char flags, int longest);
 
 /*
 **	--------------------------------
