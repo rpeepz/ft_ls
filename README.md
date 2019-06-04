@@ -1,7 +1,7 @@
 # ft_ls
 Here lies the repo of RPAPAGNA with my own recreation of unix ls command
 
-per 42 circus the allowed funcitons for this project are:\
+per 42 circus the allowed funcitons for this project are:
 | Library        | Function      |
 |:-------------- |:------------- |
 |`<sys/xaatr.h>`|`listxattr, getxattr`|
