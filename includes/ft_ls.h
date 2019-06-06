@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/05 22:27:29 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:37:15 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define PARENT_DIR(x) (x[0] == '.' && x[1] == '.' && x[2] == '\0')
 # define IF_BREAK(x) if(x) {break ;}
 # define IF_THEN_CONTINUE(x, y) if(x) {(y); continue ;}
+# define G_PATH(buf, path, name) ft_strncpy(buf, path, LEN(path) - LEN(name) -1)
 # define Y_DIR(t_file) S_ISDIR(t_file->info.st_mode)
 # define N_DIR(t_file) !S_ISDIR(t_file->info.st_mode)
 # define Y_USX(m) (m->info.st_mode & S_IXUSR)
@@ -49,7 +50,7 @@
 **	(COLORS)
 */
 
-# define NOCOL "\e[0m"
+# define NOCOL "\e[;37m"
 
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"

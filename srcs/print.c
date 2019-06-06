@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 13:38:08 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 16:24:48 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void		ls_display(t_file *entry, char flags, int longest, int type)
 
 	ft_bzero(buf, 64);
 	tmp = buf;
-	tmp = ft_strncpy(tmp, entry->full_path, LEN(entry->full_path) - 2);
+	tmp = G_PATH(tmp, entry->full_path, entry->name);
 	IF_THEN(type == 1, ft_printf("\n%s:\n", tmp));
-	IF_THEN(type == 2, ft_printf("\n%s:\n", tmp) && (type = 1));
+	IF_THEN(type == 2, ft_printf("%s:\n", tmp) && (type = 1));
 	buf[0] = '\0';
 	while (entry)
 	{
-		if (!(flags & 0x4) && entry->name[0] == '.' && (entry = entry->next))
-			continue ;
+		IF_THEN_CONTINUE(!(flags & 0x4) && entry->name[0] == '.',
+			entry = entry->next);
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s\n", entry->name);
 		else if (flags & 0x10)
@@ -45,7 +45,7 @@ int				print_contents(t_file *paths, char flags, int type)
 
 	entry = NULL;
 	dir = opendir(paths->name);
-	if (!(ft_strcmp(strerror(errno), "No such file or directory")))
+	if (!ft_strcmp(strerror(errno), "No such file or directory") && N_DIR(paths))
 		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
 	IF_RETURN(!type && !dir && ft_printf("%s\n", paths->name), 0);
 	if (!dir)

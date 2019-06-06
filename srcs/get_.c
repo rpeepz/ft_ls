@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/05 20:30:56 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:15:38 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,9 @@ int				get_contents(t_file **apath, t_file *parent, DIR **dir)
 	char			*fullpath;
 	struct dirent	*contents;
 
-	fullpath = NULL;
 	entry = *apath;
 	while ((contents = readdir((*dir))))
 	{
-		IF_THEN(fullpath, free(fullpath));
 		fullpath = str_3join(parent->name, "/", contents->d_name);
 		if (!entry)
 		{
@@ -129,6 +127,7 @@ int				get_contents(t_file **apath, t_file *parent, DIR **dir)
 			if (t_fileadd(&entry, contents->d_name, fullpath, 1))
 				return (1);
 		}
+		IF_THEN(fullpath, free(fullpath));
 	}
 	closedir(*dir);
 	*apath = entry;
