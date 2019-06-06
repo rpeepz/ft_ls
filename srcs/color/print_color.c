@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 13:38:03 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 16:20:46 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ static void		ls_color_display(t_file **apath, char flags, int length, int tm)
 	entry = *apath;
 	ft_bzero(buf, 64);
 	tmp = buf;
-	tmp = ft_strncpy(buf, entry->full_path, LEN(entry->full_path));
-	IF_THEN(tm == 1, ft_printf("\n%.*s:\n", LEN(tmp) - 2, tmp));
-	IF_THEN(tm == 2, ft_printf("%.*s:\n", LEN(tmp) - 2, tmp) && (tm = 1));
+	tmp = G_PATH(tmp, entry->full_path, entry->name);
+	IF_THEN(tm == 1, ft_printf("\n%.*s:\n", LEN(tmp), tmp));
+	IF_THEN(tm == 2, ft_printf("%.*s:\n", LEN(tmp), tmp) && (tm = 1));
 	buf[0] = '\0';
 	while (entry && (color = define_color(entry)))
 	{
-		if (!(flags & 0x4) && entry->name[0] == '.' && (entry = entry->next))
-			continue ;
+		IF_THEN_CONTINUE(!(flags & 0x4) && entry->name[0] == '.',
+			entry = entry->next);
 		if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, entry->name);
+			ft_sprintf(&buf[LEN(buf)], "%s%s%s\n", NOCOL, color, entry->name);
 		else if (flags & 0x10)
 			;
 		else
-			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, length, entry->name);
+			ft_sprintf(&buf[LEN(buf)], "%s%s%-*s", NOCOL, color, length, entry->name);
 		entry = entry->next;
 	}
 	ft_printf("%s%c%s", buf, flags & 0x1 ? '\0' : '\n', NOCOL);
@@ -55,7 +55,7 @@ int				color_contents(t_file *paths, char flags, int type)
 
 	entry = NULL;
 	dir = opendir(paths->name);
-	if (!(ft_strcmp(strerror(errno), "No such file or directory")))
+	if (!ft_strcmp(strerror(errno), "No such file or directory") && N_DIR(paths))
 		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
 	IF_RETURN(!type && !dir && ft_printf("%s\n", paths->name), 0);
 	if (!dir)
@@ -86,15 +86,14 @@ int				color_first_files(t_file **apath, char flags, int longest)
 	{
 		opendir(paths->name);
 		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
-			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
+			IF_THEN_CONTINUE(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)),
+			paths = paths->next);
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, paths->name);
 		else if (flags & 0x10)
 			;
 		else
 			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, longest, paths->name);
-		free(paths->name);
-		IF_THEN(paths->full_path, free(paths->full_path));
 		paths = paths->next;
 	}
 	ft_printf("%s%c%s", buf, flags & 0x1 ? '\0' : '\n', NOCOL);
