@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:58:30 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/03 19:28:50 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/05 22:02:32 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 t_file			*t_filedel(t_file **apath)
 {
-	if ((*apath)->path != NULL)
-	{
-		free((*apath)->path);
-		(*apath)->path = NULL;
-	}
 	if ((*apath)->name != NULL)
 	{
 		free((*apath)->name);
@@ -39,23 +34,31 @@ t_file			*t_filedel(t_file **apath)
 	return (NULL);
 }
 
-t_file			*t_fileinit(char *param)
+t_file			*t_fileinit(char *param, char *fullpath, int type)
 {
 	t_file		*file;
 
 	if (!(file = ft_memalloc(sizeof(t_file))))
 		return (NULL);
 	file->next = NULL;
-	if (!(file->path = ft_strdup(param)) ||
-		!(file->name = ft_strdup(param)) ||
-		!(file->full_path = ft_strdup(param)))
-		return (t_filedel(&file));
-	lstat(param, &(file->info));
+	if (type == 0)
+	{
+		if (!(file->name = ft_strdup(param)))
+			return (t_filedel(&file));
+		lstat(param, &(file->info));
+	}
+	else if (type == 1)
+	{
+		if (!(file->name = ft_strdup(param)) ||
+			!(file->full_path = ft_strdup(fullpath)))
+			return (t_filedel(&file));
+		lstat(fullpath, &(file->info));
+	}
 	file->index = 1;
 	return (file);
 }
 
-int				t_fileadd(t_file **apath, char *dir)
+int				t_fileadd(t_file **apath, char *param, char *fullpath, int type)
 {
 	t_file	*head;
 	t_file	*to_add;
@@ -63,17 +66,22 @@ int				t_fileadd(t_file **apath, char *dir)
 	if (!(to_add = ft_memalloc(sizeof(t_file))))
 		return (1);
 	to_add->next = NULL;
-	if (!(to_add->path = ft_strdup(dir)) ||
-		!(to_add->name = ft_strdup(dir)) ||
-		!(to_add->full_path =
-							(char *)ft_memalloc(sizeof(char) * (LEN(dir) + 1))))
-		return (1);
+	if (type == 0)
+	{
+		IF_RETURN((!(to_add->name = ft_strdup(param))), 1);
+		lstat(param, &(to_add->info));
+	}
+	else if (type == 1)
+	{
+		if (!(to_add->name = ft_strdup(param)) ||
+			!(to_add->full_path = ft_strdup(fullpath)))
+			return (1);
+		lstat(fullpath, &(to_add->info));
+	}
 	head = *apath;
 	while (head->next)
 		head = head->next;
-	lstat(dir, &(to_add->info));
 	to_add->index = head->index + 1;
-	to_add->full_path = ft_strcpy(to_add->full_path, dir);
 	head->next = to_add;
 	return (0);
 }
@@ -87,7 +95,7 @@ void			t_filedelone(t_file **apath, int index)
 	if (tmp->index == index)
 	{
 		*apath = tmp->next;
-		ft_pipewrench("-s-s-s", tmp->path, tmp->name, tmp->full_path);
+		ft_pipewrench("-s-s", tmp->name, tmp->full_path);
 		free(tmp);
 		return ;
 	}
@@ -99,7 +107,7 @@ void			t_filedelone(t_file **apath, int index)
 	if (tmp && tmp->index == index)
 	{
 		prev->next = tmp->next;
-		ft_pipewrench("-s-s-s", tmp->path, tmp->name, tmp->full_path);
+		ft_pipewrench("-s-s", tmp->name, tmp->full_path);
 		free(tmp);
 	}
 }

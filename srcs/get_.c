@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/04 14:00:48 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:30:56 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ t_file			*get_dirs(char **av, int i, int j)
 	}
 	if (!av[i])
 	{
-		if (!(paths = t_fileinit(".")))
+		if (!(paths = t_fileinit(".", "", 0)))
 			return (t_filedel(&paths));
 	}
 	else
 	{
-		if (!(paths = t_fileinit(av[i])))
+		if (!(paths = t_fileinit(av[i], "", 0)))
 			return (t_filedel(&paths));
 		while (av[++i])
-			if (t_fileadd(&paths, av[i]))
+			if (t_fileadd(&paths, av[i], "", 0))
 				return (t_filedel(&paths));
 	}
 	return (paths);
@@ -107,22 +107,26 @@ int				get_longest(t_file *paths, int type)
 	return (pad_width + 1);
 }
 
-int				get_contents(t_file **apath, DIR **dir)
+int				get_contents(t_file **apath, t_file *parent, DIR **dir)
 {
 	t_file			*entry;
+	char			*fullpath;
 	struct dirent	*contents;
 
+	fullpath = NULL;
 	entry = *apath;
 	while ((contents = readdir((*dir))))
 	{
+		IF_THEN(fullpath, free(fullpath));
+		fullpath = str_3join(parent->name, "/", contents->d_name);
 		if (!entry)
 		{
-			if (!(entry = t_fileinit(contents->d_name)))
+			if (!(entry = t_fileinit(contents->d_name, fullpath, 1)))
 				return (1);
 		}
 		else
 		{
-			if (t_fileadd(&entry, contents->d_name))
+			if (t_fileadd(&entry, contents->d_name, fullpath, 1))
 				return (1);
 		}
 	}
