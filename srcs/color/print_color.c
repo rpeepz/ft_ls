@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/05 23:32:32 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:38:03 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ static void		ls_color_display(t_file **apath, char flags, int length, int tm)
 	char		*tmp;
 
 	entry = *apath;
+	ft_bzero(buf, 64);
 	tmp = buf;
 	tmp = ft_strncpy(buf, entry->full_path, LEN(entry->full_path));
 	IF_THEN(tm == 1, ft_printf("\n%.*s:\n", LEN(tmp) - 2, tmp));
+	IF_THEN(tm == 2, ft_printf("%.*s:\n", LEN(tmp) - 2, tmp) && (tm = 1));
 	buf[0] = '\0';
 	while (entry && (color = define_color(entry)))
 	{
-		IF_THEN_CONTINUE((!(flags & 0x4) && entry->name[0] == '.'),
-			entry = entry->next);
+		if (!(flags & 0x4) && entry->name[0] == '.' && (entry = entry->next))
+			continue ;
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, entry->name);
 		else if (flags & 0x10)
-		{
 			;
-		}
 		else
 			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, length, entry->name);
 		entry = entry->next;
@@ -52,15 +52,14 @@ int				color_contents(t_file *paths, char flags, int type)
 {
 	DIR				*dir;
 	t_file			*entry;
-	char			buf[PAGESIZE];
 
 	entry = NULL;
 	dir = opendir(paths->name);
+	if (!(ft_strcmp(strerror(errno), "No such file or directory")))
+		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
+	IF_RETURN(!type && !dir && ft_printf("%s\n", paths->name), 0);
 	if (!dir)
-	{
-		ft_sprintf(buf, "ft_ls: %s: %s\n", paths->name, strerror(errno));
-		IF_RETURN(ft_printf("%s", buf), 0);
-	}
+		ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
 	else
 	{
 		if (get_contents(&entry, paths, &dir))
@@ -83,15 +82,15 @@ int				color_first_files(t_file **apath, char flags, int longest)
 
 	paths = *apath;
 	buf[0] = '\0';
-	while (paths && N_DIR(paths))
+	while (paths && N_DIR(paths) && (color = define_color(paths)))
 	{
-		color = define_color(paths);
+		opendir(paths->name);
+		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
+			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, paths->name);
 		else if (flags & 0x10)
-		{
 			;
-		}
 		else
 			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, longest, paths->name);
 		free(paths->name);
