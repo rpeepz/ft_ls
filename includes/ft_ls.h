@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 15:37:15 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:16:08 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ typedef	struct		s_file
 
 char				get_flags(char **av, char mask, int i, int j);
 t_file				*get_dirs(char **av, int i, int j);
-int					get_contents(t_file **apath, t_file *path, DIR **dir);
+int					get_contents(t_file **apath, t_file *path, DIR **dir,
+	int type);
 int					get_longest(t_file *paths, int type);
 
 /*
@@ -127,13 +128,16 @@ void				t_filedelone(t_file **apath, int index);
 
 int					ft_ls(t_file *paths, char flags);
 int					print_contents(t_file *paths, char flags, int type);
-int					recurse(t_file *paths, char flags);
+int					recurse(t_file **apath, char flags, int longest);
+int					re_recurse(t_file *paths, char flags, int type);
+void				re_re_recurse(t_file **ath, char flgs, int lngest, int typ);
 int					print_first_files(t_file **apath, char flags, int longest);
 
 /*
 **	(COLOR)
 */
 
+char				*define_color(t_file *paths);
 int					ls_color(t_file *paths, char flags);
 int					color_contents(t_file *paths, char flags, int type);
 int					recurse_color(t_file *paths, char flags);

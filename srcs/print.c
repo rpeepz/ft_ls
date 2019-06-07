@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 16:24:48 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:04:07 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ int				print_contents(t_file *paths, char flags, int type)
 
 	entry = NULL;
 	dir = opendir(paths->name);
-	if (!ft_strcmp(strerror(errno), "No such file or directory") && N_DIR(paths))
+	if (!ft_strcmp(strerror(errno), "No such file or directory")
+		&& N_DIR(paths))
 		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
 	IF_RETURN(!type && !dir && ft_printf("%s\n", paths->name), 0);
 	if (!dir)
 		ft_printf("ft_ls: %s: %s\n", paths->name, strerror(errno));
 	else
 	{
-		if (get_contents(&entry, paths, &dir))
+		if (get_contents(&entry, paths, &dir, 1))
 			if (!(t_filedel(&entry)))
 				return (1);
 		t_file_mergesort(&entry, flags, 0);
@@ -90,9 +91,4 @@ int				print_first_files(t_file **apath, char flags, int longest)
 	if (paths)
 		return (print_contents(paths, flags, 1));
 	return (0);
-}
-
-int				recurse(t_file *paths, char flags)
-{
-	return (write(1, "recur\n", 6));
 }

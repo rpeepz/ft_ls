@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 21:48:57 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 16:18:06 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:16:00 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ int				main(int ac, char **av)
 	if (ft_ls(paths, flags))
 		IF_RETURN(!t_filedel(&paths) && write(1, MALLOC_ERR, 17), 1);
 	return (0);
+}
+
+char			*define_color(t_file *paths)
+{
+	IF_RETURN(Y_DIR(paths), BGRN);
+	IF_RETURN(Y_USX(paths), RED);
+	return (NOCOL);
 }
