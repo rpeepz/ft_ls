@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:04:07 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/07 18:26:29 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				print_contents(t_file *paths, char flags, int type)
 			if (!(t_filedel(&entry)))
 				return (1);
 		t_file_mergesort(&entry, flags, 0);
-		ls_display(entry, flags, get_longest(entry, 0), type);
+		ls_display(entry, flags, get_longest(entry, flags, 0), type);
 	}
 	if (paths->next && !t_filedel(&entry))
 		return (print_contents(paths->next, flags, 1));

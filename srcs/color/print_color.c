@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:15:46 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/07 18:27:37 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int				color_contents(t_file *paths, char flags, int type)
 			if (!(t_filedel(&entry)))
 				return (1);
 		t_file_mergesort(&entry, flags, 0);
-		ls_color_display(&entry, flags, get_longest(entry, 0), type);
+		ls_color_display(&entry, flags, get_longest(entry, flags, 0), type);
 	}
 	if (paths->next && !t_filedel(&entry))
 		return (color_contents(paths->next, flags, 1));
