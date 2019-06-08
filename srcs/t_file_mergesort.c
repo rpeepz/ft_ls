@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 09:46:55 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 14:30:45 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int		sort_args(t_file *a, t_file *b, char flags)
 		IF_RETURN(N_DIR(b), ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
 		return (1);
 	}
+	if (CURRENT_DIR(a->name) || PARENT_DIR(a->name))
+		return (0);
 	return (ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
 }
 
