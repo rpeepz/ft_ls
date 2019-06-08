@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 11:15:53 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:22:40 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void		recur_callor(t_file **apath, char flags)
 void			color_re_re_recurse(t_file **entry, char flags,
 		int longest, int type)
 {
+	int		len;
 	char	buf[PAGESIZE];
 	char	*tmp;
 	t_file	*cur;
@@ -38,22 +39,22 @@ void			color_re_re_recurse(t_file **entry, char flags,
 	ft_bzero(buf, 255);
 	cur = *entry;
 	tmp = buf;
-	tmp = G_PATH(tmp, cur->full_path, LEN(cur->name) < 2 ? "-" : cur->name);
-	IF_THEN(type == 1, ft_printf("\n%s:\n", tmp));
-	ft_bzero(buf, 255);
+	IF_THEN(type == 1, ft_printf("\n%s:\n",
+		tmp = G_PATH(tmp, cur->full_path, cur->name)));
+	len = ft_sprintf(buf, "\0");
 	while (cur && (tmp = define_color(cur)))
 	{
 		IF_THEN_CONTINUE(!(flags & 0x4) && cur->name[0] == '.',
 			cur = cur->next);
 		if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s%s\n", tmp, cur->name);
+			len += ft_sprintf(&buf[len], "%s%s\n", tmp, cur->name);
 		else if (flags & 0x10)
 			;
 		else
-			ft_sprintf(&buf[LEN(buf)], "%s-*s", tmp, longest, cur->name);
-		cur = cur->next;
+			len += ft_sprintf(&buf[len], "%s-*s", tmp, longest, cur->name);
+		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255, ft_printf("%s%s",
+			buf, NOCOL) && (len = ft_sprintf(buf, "\0")));
 	}
-	ft_printf("%s%c%s", buf, flags & 0x1 ? '\0' : '\n', NOCOL);
 	recur_callor(entry, flags);
 }
 
@@ -108,7 +109,6 @@ int				color_recurse(t_file **apath, char flags, int longest)
 		IF_THEN(paths->full_path, free(paths->full_path));
 		paths = paths->next;
 	}
-	ft_printf("%s%c", buf, flags & 0x1 ? '\0' : '\n');
 	while (paths && color_re_recurse(paths, flags, 1))
 		paths = paths->next;
 	return (0);

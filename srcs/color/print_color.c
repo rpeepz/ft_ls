@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/07 18:27:37 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:31:03 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 static void		ls_color_display(t_file **apath, char flags, int length, int tm)
 {
-	t_file		*entry;
-	char		*color;
 	char		buf[PAGESIZE];
 	char		*tmp;
+	t_file		*entry;
+	int			len;
 
+	ft_bzero(buf, 255);
 	entry = *apath;
-	ft_bzero(buf, 64);
 	tmp = buf;
 	tmp = G_PATH(tmp, entry->full_path, entry->name);
 	IF_THEN(tm == 1, ft_printf("\n%.*s:\n", LEN(tmp), tmp));
-	IF_THEN(tm == 2, ft_printf("%.*s:\n", LEN(tmp), tmp) && (tm = 1));
-	buf[0] = '\0';
-	while (entry && (color = define_color(entry)))
+	IF_THEN(tm == 2, ft_printf("%s:\n", tmp) && (tm = 1));
+	len = ft_sprintf(buf, "\0");
+	while (entry && (tmp = define_color(entry)))
 	{
 		IF_THEN_CONTINUE(!(flags & 0x4) && entry->name[0] == '.',
 			entry = entry->next);
 		if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, entry->name);
+			len += ft_sprintf(&buf[len], "%s%s\n", tmp, entry->name);
 		else if (flags & 0x10)
 			;
 		else
-			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, length, entry->name);
-		entry = entry->next;
+			ft_sprintf(&buf[len], "%s%-*s", tmp, length, entry->name);
+		IF_THEN(!(entry = entry->next) || len > PAGESIZE - 255,
+			ft_printf("%s%s", buf, NOCOL) && (len = ft_sprintf(buf, "\0")));
 	}
-	ft_printf("%s%c%s", buf, flags & 0x1 ? '\0' : '\n', NOCOL);
 }
 
 int				color_contents(t_file *paths, char flags, int type)
@@ -80,8 +80,7 @@ int				color_first_files(t_file **apath, char flags, int longest)
 	{
 		opendir(paths->name);
 		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
-			IF_THEN_CONTINUE(ft_printf("ls: %s: %s\n",
-			paths->name, strerror(errno)), paths = paths->next);
+			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
 		if (flags & 0x1)
 			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, paths->name);
 		else if (flags & 0x10)
