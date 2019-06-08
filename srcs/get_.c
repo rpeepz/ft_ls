@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:10:19 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 09:57:02 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,13 @@ t_file			*get_dirs(char **av, int i, int j)
 	return (paths);
 }
 
-int				get_longest(t_file *paths, int type)
+int				get_longest(t_file *paths, char flags, int type)
 {
 	int		pad_width;
 	int		tmp_len;
 
 	pad_width = 0;
+	IF_RETURN(flags & 0x1, 0);
 	while (type == 3 && paths && (tmp_len = LEN(paths->full_path)))
 	{
 		IF_THEN(pad_width < tmp_len, pad_width = tmp_len);
@@ -99,8 +100,7 @@ int				get_longest(t_file *paths, int type)
 	}
 	while (type == 2 && paths)
 	{
-		paths = paths->next;
-		pad_width++;
+		IF_THEN(pad_width++, paths = paths->next);
 	}
 	while (type == 1 && paths && N_DIR(paths) && (tmp_len = LEN(paths->name)))
 	{

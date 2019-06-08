@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:05:21 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:16:05 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void		recur_call(t_file **apath, char flags)
 	cur = *apath;
 	while (cur)
 	{
+		IF_THEN_CONTINUE(!(flags & 0x4) && cur->name[0] == '.',
+			cur = cur->next);
 		if (Y_DIR(cur) && !PARENT_DIR(cur->name) && !CURRENT_DIR(cur->name))
 			re_recurse(cur, flags, 3);
 		cur = cur->next;
@@ -32,12 +34,12 @@ void			re_re_recurse(t_file **entry, char flgs, int lngst, int typ)
 	char	*tmp;
 	t_file	*cur;
 
-	ft_bzero(buf, 64);
+	ft_bzero(buf, 255);
 	cur = *entry;
 	tmp = buf;
 	tmp = G_PATH(tmp, cur->full_path, cur->name);
 	IF_THEN(typ == 1, ft_printf("\n%s:\n", tmp));
-	ft_bzero(buf, 64);
+	ft_bzero(buf, 255);
 	while (cur)
 	{
 		IF_THEN_CONTINUE(!(flgs & 0x4) && cur->name[0] == '.',
@@ -77,7 +79,7 @@ int				re_recurse(t_file *paths, char flags, int type)
 		t_file_mergesort(&entry, flags, 0);
 		if (type == 3)
 			type = 1;
-		re_re_recurse(&entry, flags, get_longest(entry, 3), type);
+		re_re_recurse(&entry, flags, get_longest(entry, flags, 3), type);
 	}
 	return (1);
 }
@@ -119,14 +121,17 @@ int				ft_ls(t_file *paths, char flags)
 		if (!paths->index)
 			return (print_contents(paths, flags, 0));
 		if (paths->index && N_DIR(paths))
-			return (print_first_files(&paths, flags, get_longest(paths, 1)));
+		{
+			return (print_first_files(&paths, flags,
+			get_longest(paths, flags, 1)));
+		}
 		return (print_contents(paths, flags, 2));
 	}
 	if (flags & 0x2 && !paths->index && N_DIR(paths))
 		return (print_contents(paths, flags, 0));
 	else
 	{
-		recurse(&paths, flags, get_longest(paths, 1));
+		recurse(&paths, flags, get_longest(paths, flags, 1));
 	}
 	return (0);
 }

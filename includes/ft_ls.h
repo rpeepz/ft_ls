@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:16:08 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 10:09:15 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char				get_flags(char **av, char mask, int i, int j);
 t_file				*get_dirs(char **av, int i, int j);
 int					get_contents(t_file **apath, t_file *path, DIR **dir,
 	int type);
-int					get_longest(t_file *paths, int type);
+int					get_longest(t_file *paths, char flags, int type);
 
 /*
 **	--------------------------------
@@ -140,7 +140,7 @@ int					print_first_files(t_file **apath, char flags, int longest);
 char				*define_color(t_file *paths);
 int					ls_color(t_file *paths, char flags);
 int					color_contents(t_file *paths, char flags, int type);
-int					recurse_color(t_file *paths, char flags);
+int					color_re_recurse(t_file *paths, char flags, int type);
 int					color_first_files(t_file **apath, char flags, int length);
 
 /*
