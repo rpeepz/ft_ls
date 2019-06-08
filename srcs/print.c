@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/07 18:26:29 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:08:37 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		ls_display(t_file *entry, char flags, int longest, int type)
 			ft_sprintf(&buf[LEN(buf)], "%-*s", longest, entry->name);
 		entry = entry->next;
 	}
-	ft_printf("%s%c", buf, flags & 0x1 ? '\0' : '\n');
+	ft_printf("%s", buf);
 }
 
 int				print_contents(t_file *paths, char flags, int type)

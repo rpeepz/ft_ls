@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 09:57:02 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:33:28 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,11 @@ int				get_contents(t_file **apath, t_file *parent, DIR **dir, int typ)
 	char			*tmp;
 	struct dirent	*contents;
 
+	tmp = parent->name;
 	entry = *apath;
 	while ((contents = readdir((*dir))))
 	{
 		IF_THEN(typ == 3, tmp = parent->full_path);
-		IF_THEN(typ == 1, tmp = parent->name);
 		fullpath = str_3join(tmp, "/", contents->d_name);
 		if (!entry)
 		{
