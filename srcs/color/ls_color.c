@@ -6,17 +6,19 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 15:22:40 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/08 17:22:19 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/ft_ls.h"
 
-static void		recur_callor(t_file **apath, char flags)
+static void		recur_callor(t_file **apath, char flags, char *buf)
 {
 	t_file *cur;
 
 	cur = *apath;
+	if (buf)
+		ft_printf("%s", buf);
 	while (cur)
 	{
 		IF_THEN_CONTINUE(!(flags & 0x4) && cur->name[0] == '.',
@@ -55,7 +57,7 @@ void			color_re_re_recurse(t_file **entry, char flags,
 		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255, ft_printf("%s%s",
 			buf, NOCOL) && (len = ft_sprintf(buf, "\0")));
 	}
-	recur_callor(entry, flags);
+	recur_callor(entry, flags, tmp = buf);
 }
 
 int				color_re_recurse(t_file *paths, char flags, int type)
