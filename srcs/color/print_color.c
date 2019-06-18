@@ -12,40 +12,37 @@
 
 #include "../../includes/ft_ls.h"
 
-static char		*ls_color_display(t_file *entry, char flags, int lnth, int type)
+static void		ls_color_display(t_file *entry, char flgs, int lnth, int type)
 {
 	char		buf[PAGESIZE];
 	char		*tmp;
 	int			len;
 
-	ft_bzero(buf, 255);
+	ft_bzero(buf, 4096);
 	tmp = buf;
 	tmp = G_PATH(tmp, entry->full_path, entry->name);
 	IF_THEN(type == 1, ft_printf("\n%.*s:\n", LEN(tmp), tmp));
 	IF_THEN(type == 2, ft_printf("%s:\n", tmp) && (type = 1));
+	IF_THEN(flgs & 0x10, norminette(&entry, flgs, ""));
 	len = ft_sprintf(buf, "\0");
-	while (entry && (tmp = define_color(entry)))
+	while (!(flgs & 0x10) && entry && (tmp = define_color(entry)))
 	{
-		IF_THEN_CONTINUE(!(flags & 0x4) && entry->name[0] == '.',
+		IF_THEN_CONTINUE(!(flgs & 0x4) && entry->name[0] == '.',
 			entry = entry->next);
-		if (flags & 0x1)
-			len += ft_sprintf(&buf[len], "%s%s\n", tmp, entry->name);
-		else if (flags & 0x10)
-			;
+		if (flgs & 0x1)
+			len += ft_sprintf(&buf[len], "%s%s%s\n", tmp, entry->name, NOCOL);
 		else
-			len += ft_sprintf(&buf[len], "%s%-*s", tmp, lnth, entry->name);
+			len += ft_sprintf(&buf[len], "%s%-*s%s", tmp, lnth, entry->name,
+				NOCOL);
 		IF_THEN(!(entry = entry->next) || len > PAGESIZE - 255,
-			ft_printf("%s%s", buf, NOCOL) && (len = ft_sprintf(buf, "\0")));
+			ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
-	tmp = buf;
-	return (tmp);
 }
 
 int				color_contents(t_file *paths, char flags, int type)
 {
 	DIR				*dir;
 	t_file			*entry;
-	char			*buf;
 
 	entry = NULL;
 	dir = opendir(paths->name);
@@ -61,8 +58,7 @@ int				color_contents(t_file *paths, char flags, int type)
 			if (!(t_filedel(&entry)))
 				return (1);
 		t_file_mergesort(&entry, flags, 0);
-		IF_THEN((buf = ls_color_display(entry, flags, get_longest(entry,
-			flags, 0), type)), ft_printf("%s%s", buf, NOCOL));
+		ls_color_display(entry, flags, get_longest(entry, flags, 0), type);
 	}
 	if (!t_filedel(&entry) && paths->next)
 		return (color_contents(paths->next, flags, 1));
@@ -70,29 +66,29 @@ int				color_contents(t_file *paths, char flags, int type)
 	return (0);
 }
 
-int				color_first_files(t_file **apath, char flags, int longest)
+int				color_first_files(t_file **apath, char flags, int lngst, int ln)
 {
-	t_file	*paths;
+	t_file	*pth;
 	char	*color;
 	char	buf[PAGESIZE];
 
-	paths = *apath;
-	buf[0] = '\0';
-	while (paths && N_DIR(paths) && (color = define_color(paths)))
+	pth = *apath;
+	ft_bzero(buf, 4096);
+	IF_THEN(flags & 0x10, norminette2(&pth, "", ln, flags));
+	while (!(flags & 0x10) && pth && N_DIR(pth) && (color = define_color(pth)))
 	{
-		opendir(paths->name);
+		opendir(pth->name);
 		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
-			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
-		if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s%s\n", color, paths->name);
-		else if (flags & 0x10)
-			;
+			ft_printf("ls: %s: %s\n", pth->name, strerror(errno));
+		else if (flags & 0x1)
+			ft_sprintf(&buf[LEN(buf)], "%s%s%s\n", color, pth->name, NOCOL);
 		else
-			ft_sprintf(&buf[LEN(buf)], "%s%-*s", color, longest, paths->name);
-		paths = paths->next;
+			ft_sprintf(&buf[LEN(buf)], "%s%-*s%s", color, lngst, pth->name,
+				NOCOL);
+		ft_pipewrench("-s-s", pth->name, pth->full_path);
+		IF_THEN(!(pth = pth->next) || Y_DIR(pth) || ln > PAGESIZE
+		- 255, ft_printf("%s", buf) && (ln = ft_sprintf(buf, "\0")));
 	}
-	ft_printf("%s%c%s", buf, flags & 0x1 ? '\0' : '\n', NOCOL);
-	if (paths)
-		return (color_contents(paths, flags, 1));
+	IF_RETURN(pth, color_contents(pth, flags, pth->index ? 1 : 0));
 	return (0);
 }

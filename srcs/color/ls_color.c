@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 17:22:19 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/15 17:22:58 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ void			color_re_re_recurse(t_file **entry, char flags,
 	IF_THEN(type == 1, ft_printf("\n%s:\n",
 		tmp = G_PATH(tmp, cur->full_path, cur->name)));
 	len = ft_sprintf(buf, "\0");
-	while (cur && (tmp = define_color(cur)))
+	IF_THEN(flags & 0x10, norminette(&cur, flags, ""));
+	while (!(flags & 0x10) && cur && (tmp = define_color(cur)))
 	{
 		IF_THEN_CONTINUE(!(flags & 0x4) && cur->name[0] == '.',
 			cur = cur->next);
 		if (flags & 0x1)
-			len += ft_sprintf(&buf[len], "%s%s\n", tmp, cur->name);
-		else if (flags & 0x10)
-			;
+			len += ft_sprintf(&buf[len], "%s%s%s\n", tmp, cur->name, NOCOL);
 		else
-			len += ft_sprintf(&buf[len], "%s-*s", tmp, longest, cur->name);
-		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255, ft_printf("%s%s",
-			buf, NOCOL) && (len = ft_sprintf(buf, "\0")));
+			len += ft_sprintf(&buf[len], "%s-*s%s", tmp, longest, cur->name,
+				NOCOL);
+		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255, ft_printf("%s",
+			buf) && (len = ft_sprintf(buf, "\0")));
 	}
 	recur_callor(entry, flags, tmp = buf);
 }
@@ -93,23 +93,25 @@ int				color_recurse(t_file **apath, char flags, int longest)
 {
 	t_file	*paths;
 	char	buf[PAGESIZE];
+	char	*color;
+	int		len;
 
 	paths = *apath;
-	buf[0] = '\0';
-	while (paths && N_DIR(paths))
+	ft_bzero(buf, 4096);
+	IF_THEN((len = 0) && flags & 0x10, norminette2(&paths, "", len, flags));
+	while (!(flags & 0x10) && paths && N_DIR(paths) &&
+		(color = define_color(paths)))
 	{
 		opendir(paths->name);
 		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
 			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
 		else if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s\n", paths->name);
-		else if (flags & 0x10)
-			;
+			ft_sprintf(&buf[LEN(buf)], "%s%s%s\n", color, paths->name, NOCOL);
 		else
-			ft_sprintf(&buf[LEN(buf)], "%-*s", longest, paths->name);
-		IF_THEN(paths->name, free(paths->name));
-		IF_THEN(paths->full_path, free(paths->full_path));
-		paths = paths->next;
+			ft_sprintf(&buf[LEN(buf)], "%s%-*s%s", color, longest, paths->name,
+				NOCOL);
+		IF_THEN(!(paths = paths->next) || Y_DIR(paths) || len > PAGESIZE
+		- 255, ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
 	while (paths && color_re_recurse(paths, flags, 1))
 		paths = paths->next;
@@ -120,12 +122,12 @@ int				ls_color(t_file *paths, char flags)
 {
 	if (!(flags & 0x2))
 	{
-		if (!paths->index)
+		if (!paths->index && !(flags & 0x10))
 			return (color_contents(paths, flags, 0));
-		if (paths->index && N_DIR(paths))
+		if ((paths->index && N_DIR(paths)) || flags & 0x10)
 		{
 			return (color_first_files(&paths, flags,
-			get_longest(paths, flags, 1)));
+			get_longest(paths, flags, 1), 0));
 		}
 		return (color_contents(paths, flags, 2));
 	}
@@ -135,5 +137,6 @@ int				ls_color(t_file *paths, char flags)
 	{
 		color_recurse(&paths, flags, get_longest(paths, flags, 1));
 	}
+	IF_THEN(!(flags & 0x1), ft_putchar('\n'));
 	return (0);
 }
