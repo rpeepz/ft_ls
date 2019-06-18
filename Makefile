@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/01 20:19:37 by rpapagna          #+#    #+#              #
-#    Updated: 2019/06/08 11:39:04 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/06/17 21:35:17 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,10 @@ SRCS 	=ft_ls.c\
 		print.c\
 		t_file_mergesort.c\
 		t_init.c\
+		long/get_first.c\
+		long/get_longest_long.c\
+		long/norminette.c\
+		long/long_output.c\
 		color/ls_color.c\
 		color/print_color.c
 
