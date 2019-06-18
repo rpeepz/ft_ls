@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 10:09:15 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:45:53 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define G_PATH(buf, path, name) ft_strncpy(buf, path, LEN(path) - LEN(name) -1)
 # define Y_DIR(t_file) S_ISDIR(t_file->info.st_mode)
 # define N_DIR(t_file) !S_ISDIR(t_file->info.st_mode)
-# define Y_USX(m) (m->info.st_mode & S_IXUSR)
+# define Y_UPX(m) (m & S_IXUSR)
 
 /*
 **	(COLORS)
@@ -108,6 +108,14 @@ t_file				*get_dirs(char **av, int i, int j);
 int					get_contents(t_file **apath, t_file *path, DIR **dir,
 	int type);
 int					get_longest(t_file *paths, char flags, int type);
+char				*long_out(int *l_flag, t_file *paths, char *p, int type);
+int					*get_longest_file(t_file *paths);
+int					*get_longest_any(t_file *paths, char flags);
+char				get_type(mode_t st_mode);
+char				*get_time(struct timespec modified, char *p);
+char				get_x1(t_file *paths, mode_t st_mode);
+char				get_x2(t_file *paths, mode_t st_mode);
+char				get_x3(t_file *paths, mode_t st_mode);
 
 /*
 **	--------------------------------
@@ -131,7 +139,10 @@ int					print_contents(t_file *paths, char flags, int type);
 int					recurse(t_file **apath, char flags, int longest);
 int					re_recurse(t_file *paths, char flags, int type);
 void				re_re_recurse(t_file **ath, char flgs, int lngest, int typ);
-int					print_first_files(t_file **apath, char flags, int longest);
+int					print_first_files(t_file **apath, char flags, int longest,
+	int len);
+void				norminette(t_file **apath, char flags, char *tmp);
+void				norminette2(t_file **apath, char *tmp);
 
 /*
 **	(COLOR)
