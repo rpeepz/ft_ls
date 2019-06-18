@@ -29,10 +29,11 @@ static char		*second(t_file *paths, char *p, int *l, int type)
 	ft_sprintf(&second[LEN(second)], "%*s  ", l[1], usr->pw_name);
 	ft_sprintf(&second[LEN(second)], "%*s  ", l[2], grp->gr_name);
 	ft_sprintf(&second[LEN(second)], "%*ld", l[3], paths->info.st_size);
-	if (type == 1)
-		;
-	else
+	if (!type)
 		ft_sprintf(&second[LEN(second)], " %s %s", date, paths->name);
+	else
+		ft_sprintf(&second[LEN(second)], " %s %s%s%s", date,
+			define_color(paths), paths->name, NOCOL);
 	return (tmp);
 }
 
