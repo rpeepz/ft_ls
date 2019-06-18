@@ -142,7 +142,7 @@ void				re_re_recurse(t_file **ath, char flgs, int lngest, int typ);
 int					print_first_files(t_file **apath, char flags, int longest,
 	int len);
 void				norminette(t_file **apath, char flags, char *tmp);
-void				norminette2(t_file **apath, char *tmp);
+void				norminette2(t_file **apath, char *tmp, int len, char flags);
 
 /*
 **	(COLOR)
@@ -152,7 +152,8 @@ char				*define_color(t_file *paths);
 int					ls_color(t_file *paths, char flags);
 int					color_contents(t_file *paths, char flags, int type);
 int					color_re_recurse(t_file *paths, char flags, int type);
-int					color_first_files(t_file **apath, char flags, int length);
+int					color_first_files(t_file **apath, char flags, int length,
+	int len);
 
 /*
 **	--------------------------------

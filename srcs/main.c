@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 21:48:57 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/06 21:16:00 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:15:21 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int				main(int ac, char **av)
 char			*define_color(t_file *paths)
 {
 	IF_RETURN(Y_DIR(paths), BGRN);
-	IF_RETURN(Y_USX(paths), RED);
+	IF_RETURN(paths->info.st_mode & S_IEXEC, RED);
 	return (NOCOL);
 }
