@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 17:21:44 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:05:40 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void		recur_call(t_file **apath, char flags, char *buf)
 
 void			re_re_recurse(t_file **entry, char flgs, int lngst, int typ)
 {
-	int		len;
 	char	buf[PAGESIZE];
 	char	*tmp;
+	int		len;
 	t_file	*cur;
 
 	ft_bzero(buf, 255);
@@ -43,18 +43,17 @@ void			re_re_recurse(t_file **entry, char flgs, int lngst, int typ)
 	IF_THEN(typ == 1, ft_printf("\n%s:\n",
 		tmp = G_PATH(tmp, cur->full_path, cur->name)));
 	len = ft_sprintf(buf, "\0");
-	while (cur)
+	IF_THEN(flgs & 0x10, norminette(&cur, flgs, ""));
+	while (!(flgs & 0x10) && cur)
 	{
 		IF_THEN_CONTINUE(!(flgs & 0x4) && cur->name[0] == '.',
 			cur = cur->next);
 		if (flgs & 0x1)
 			len += ft_sprintf(&buf[len], "%s\n", cur->name);
-		else if (flgs & 0x10)
-			;
 		else
 			len += ft_sprintf(&buf[len], "%-*s", lngst, cur->name);
-		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255, ft_printf("%s",
-			buf) && (len = ft_sprintf(buf, "\0")));
+		IF_THEN(!(cur = cur->next) || len > PAGESIZE - 255,
+			ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
 	recur_call(entry, flgs, tmp = buf);
 }
@@ -92,23 +91,23 @@ int				recurse(t_file **apath, char flags, int longest)
 {
 	t_file	*paths;
 	char	buf[PAGESIZE];
+	int		len;
 
 	paths = *apath;
-	ft_sprintf(buf, "");
-	while (paths && N_DIR(paths))
+	len = ft_sprintf(buf, "\0");
+	IF_THEN(flags & 0x10, norminette2(&paths, ""));
+	while (!(flags & 0x10) && paths && N_DIR(paths))
 	{
 		opendir(paths->name);
 		if (!(ft_strcmp(strerror(errno), "No such file or directory")))
 			ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
 		else if (flags & 0x1)
-			ft_sprintf(&buf[LEN(buf)], "%s\n", paths->name);
-		else if (flags & 0x10)
-			;
+			len += ft_sprintf(&buf[len], "%s\n", paths->name);
 		else
-			ft_sprintf(&buf[LEN(buf)], "%-*s", longest, paths->name);
-		IF_THEN(paths->name, free(paths->name));
-		IF_THEN(paths->full_path, free(paths->full_path));
-		paths = paths->next;
+			len += ft_sprintf(&buf[len], "%-*s", longest, paths->name);
+		ft_pipewrench("-s-s", paths->name, paths->full_path);
+		IF_THEN(!(paths = paths->next) || Y_DIR(paths) || len > PAGESIZE
+		- 255, ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
 	while (paths && re_recurse(paths, flags, 1))
 		paths = paths->next;
@@ -121,12 +120,12 @@ int				ft_ls(t_file *paths, char flags)
 		return (ls_color(paths, flags));
 	if (!(flags & 0x2))
 	{
-		if (!paths->index)
+		if (!paths->index && !(flags & 0x10))
 			return (print_contents(paths, flags, 0));
-		if (paths->index && N_DIR(paths))
+		if ((paths->index && N_DIR(paths)) || flags & 0x10)
 		{
 			return (print_first_files(&paths, flags,
-			get_longest(paths, flags, 1)));
+			get_longest(paths, flags, 1), 0));
 		}
 		return (print_contents(paths, flags, 2));
 	}
@@ -136,5 +135,6 @@ int				ft_ls(t_file *paths, char flags)
 	{
 		recurse(&paths, flags, get_longest(paths, flags, 1));
 	}
+	IF_THEN(!(flags & 0x1), ft_putchar('\n'));
 	return (0);
 }
