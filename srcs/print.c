@@ -18,10 +18,10 @@ static void		ls_display(t_file *entry, char flags, int longest, int type)
 	char		*tmp;
 	int			len;
 
-	ft_bzero(buf, 64);
+	ft_bzero(buf, 4096);
 	tmp = buf;
 	tmp = G_PATH(tmp, entry->full_path, entry->name);
-	IF_THEN(type == 1, ft_printf("\n%s:\n", tmp));
+	IF_THEN(type == 1, ft_printf("%s:\n", tmp));
 	IF_THEN(type == 2, ft_printf("%s:\n", tmp) && (type = 1));
 	IF_THEN(flags & 0x10, norminette(&entry, flags, ""));
 	len = ft_sprintf(buf, "\0");
@@ -36,6 +36,7 @@ static void		ls_display(t_file *entry, char flags, int longest, int type)
 		IF_THEN(!(entry = entry->next) || len > PAGESIZE - 255,
 			ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
+	IF_THEN(LEN(buf), ft_putstr(buf));
 }
 
 int				print_contents(t_file *paths, char flags, int type)
@@ -71,8 +72,9 @@ int				print_first_files(t_file **apath, char flgs, int lngst, int len)
 	char	buf[PAGESIZE];
 
 	paths = *apath;
-	len = ft_sprintf(buf, "\0");
-	IF_THEN(flgs & 0x10, norminette2(&paths, ""));
+	ft_bzero(buf, 4096);
+	len = 0;
+	IF_THEN(flgs & 0x10, norminette2(&paths, "", len, flgs));
 	while (!(flgs & 0x10) && paths && N_DIR(paths))
 	{
 		opendir(paths->name);
@@ -86,6 +88,6 @@ int				print_first_files(t_file **apath, char flgs, int lngst, int len)
 		IF_THEN(!(paths = paths->next) || Y_DIR(paths) || len > PAGESIZE
 		- 255, ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
-	IF_RETURN(paths, print_contents(paths, flgs, 1));
+	IF_RETURN(paths, print_contents(paths, flgs, paths->index ? 1 : 0));
 	return (0);
 }

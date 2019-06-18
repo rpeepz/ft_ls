@@ -94,8 +94,9 @@ int				recurse(t_file **apath, char flags, int longest)
 	int		len;
 
 	paths = *apath;
-	len = ft_sprintf(buf, "\0");
-	IF_THEN(flags & 0x10, norminette2(&paths, ""));
+	ft_bzero(buf, 4096);
+	len = 0;
+	IF_THEN(flags & 0x10, norminette2(&paths, "", len, flags));
 	while (!(flags & 0x10) && paths && N_DIR(paths))
 	{
 		opendir(paths->name);
