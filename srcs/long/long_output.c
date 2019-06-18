@@ -12,6 +12,33 @@
 
 #include "../../includes/ft_ls.h"
 
+static char		*third(t_file *paths, char *p, int *l, int type)
+{
+	char			*tmp;
+	char			third[850];
+	char			*date;
+	struct passwd	*usr;
+	struct group	*grp;
+
+	usr = getpwuid(paths->info.st_uid);
+	grp = getgrgid(paths->info.st_gid);
+	date = get_time(paths->info.st_mtimespec, "");
+	ft_bzero(third, 850);
+	tmp = third;
+	ft_sprintf(third, "%s ", p);
+	ft_sprintf(&third[LEN(third)], "%*s  ", l[1], usr->pw_name);
+	ft_sprintf(&third[LEN(third)], "%*s  ", l[2], grp->gr_name);
+	ft_sprintf(&third[LEN(third)], "%*ld", l[3], paths->info.st_size);
+	if (!type)
+		ft_sprintf(&third[LEN(third)], " %s %s -> ", date, paths->name);
+	else
+		ft_sprintf(&third[LEN(third)], " %s %s%s%s -> ", date,
+			define_color(paths), paths->name, NOCOL);
+	readlink(paths->full_path, &third[596], 255);
+	ft_sprintf(&third[LEN(third)], "%s", &third[596]);
+	return (tmp);
+}
+
 static char		*second(t_file *paths, char *p, int *l, int type)
 {
 	char			*tmp;
@@ -70,6 +97,9 @@ char			*long_out(int *li, t_file *paths, char *p, int type)
 	ft_bzero(buf, 1024);
 	p = buf;
 	p = first(p, li[0], paths, paths->info.st_mode);
-	p = second(paths, p, li, type);
+	if (p[0] == '-' || p[0] == 'd')
+		p = second(paths, p, li, type);
+	else if (p[0] == 'l')
+		p = third(paths, p, li, type);
 	return (p);
 }

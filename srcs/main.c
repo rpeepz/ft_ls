@@ -42,6 +42,7 @@ int				main(int ac, char **av)
 char			*define_color(t_file *paths)
 {
 	IF_RETURN(Y_DIR(paths), BGRN);
+	IF_RETURN(S_ISLNK(paths->info.st_mode), MAG);
 	IF_RETURN(paths->info.st_mode & S_IEXEC, RED);
 	return (NOCOL);
 }
