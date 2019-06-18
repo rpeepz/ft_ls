@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/26 01:49:14 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 16:34:11 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/18 01:57:12 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,27 @@ int			s_to_buf(char *buf, t_mod modifiers, va_list ap)
 {
 	char	*s;
 	char	*s2;
-	int		nbyte;
 	int		len;
 
 	s = va_arg(ap, char *);
 	IF_THEN(!s, s = "(null)");
-	nbyte = 0;
 	if (modifiers.prcsn >= 0 && modifiers.prcsn < (int)ft_strlen(s))
 		s2 = ft_strndup(s, modifiers.prcsn);
 	else
 		s2 = ft_strdup(s);
-	len = LEN(s2);
-	if (modifiers.fl.minus == 1)
+	if ((len = LEN(s2)) && modifiers.fl.minus == 1)
 	{
 		if (modifiers.width <= len)
-		{
-			ADD_TO_BUFF(buf, s2, nbyte, len);
-		}
+			ft_strcpy(buf, s2);
 		else
-			nbyte += left_justify(buf, s2, len, modifiers);
+			left_justify(buf, s2, len, modifiers);
 		free(s2);
-		return (nbyte);
+		return (modifiers.width <= len ? len : modifiers.width);
 	}
 	if (modifiers.width > len)
-		nbyte += right_justify(buf, s2, len, modifiers);
+		right_justify(buf, s2, len, modifiers);
 	else
-	{
-		ADD_TO_BUFF(buf, s2, nbyte, len);
-	}
+		ft_strcpy(buf, s2);
 	free(s2);
-	return (nbyte);
+	return (modifiers.width > len ? modifiers.width : len);
 }

@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 21:14:12 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 15:24:55 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/18 02:38:47 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,8 @@ void				set_flags(t_flag *fl, char c);
 char				*num_string_base(long long num, int base);
 char				*num_string_u_base(unsigned long long num, int base);
 void				print_one(char **str);
+int					ft_padding(char *buf, int len, t_mod mod, int nbyte);
+void				left_jut(char *buf, char *num, t_mod mod, int nbyte);
 
 t_mods				get_mods(char **str, va_list ap);
 t_mod				get_mod(char **str, va_list ap);

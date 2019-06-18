@@ -6,126 +6,76 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 23:12:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/05/26 16:34:04 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/18 02:56:51 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-static int		pad_width(char *buf, int len, int nbyte, t_mod mod)
+static void		pos_justify(char *buf, t_mod mod, int len)
 {
-	char	*pad_char;
-
-	pad_char = " ";
-	if (len > mod.prcsn || mod.prcsn == -1)
-	{
-		if (mod.width > len)
-		{
-			IF_THEN(mod.fl.fzero && mod.prcsn == -1, pad_char = "0");
-			if (nbyte == 0)
-			{
-				if (mod.fl.space && mod.fl.fzero)
-				{
-					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
-				}
-				while (mod.width - len - mod.neg > nbyte)
-				{
-					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
-				}
-			}
-			else
-				while (mod.width - len > nbyte)
-				{
-					ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
-				}
-		}
-	}
-	else
-		while (mod.width - mod.prcsn - mod.neg > nbyte)
-		{
-			ADD_ONE_TO_BUFF(buf, pad_char, nbyte);
-		}
-	return (nbyte);
-}
-
-static int		right_justify(char *buf, char *num, t_mod mod)
-{
-	int		len;
 	int		nbyte;
 
 	nbyte = 0;
-	len = LEN(num);
+	if (mod.fl.fplus && mod.fl.fzero && mod.prcsn < 0 &&
+		mod.width > len && (mod.fl.space = -1))
+	{
+		ft_strcpy(buf, "+");
+		buf++;
+		nbyte++;
+	}
+	mod.neg = mod.fl.fplus;
+	nbyte = ft_padding(buf, len, mod, nbyte);
+	if ((mod.fl.fplus && mod.fl.space != -1))
+	{
+		ft_strcpy(buf, "+");
+		buf++;
+		nbyte++;
+	}
+	if (!mod.fl.fplus && mod.fl.space && !nbyte)
+	{
+		ft_strcpy(buf, " ");
+		buf++;
+	}
+}
+
+static void		neg_justify(char *buf, t_mod mod, char *num)
+{
+	int		nbyte;
+
+	nbyte = 0;
+	if (mod.fl.fzero && mod.prcsn < 0 && mod.width > LEN(num))
+	{
+		ft_strcpy(buf, "-");
+		buf++;
+		nbyte++;
+	}
+	nbyte = ft_padding(buf, LEN(num), mod, nbyte);
+	if (!mod.fl.fzero || mod.prcsn > 0 || !nbyte)
+	{
+		ft_strcpy(buf, "-");
+		buf++;
+	}
+}
+
+static void		right_justify(char *buf, char *num, t_mod mod, int nbyte)
+{
+	int		len;
+
 	if (mod.neg == 1)
-	{
-		if (mod.fl.fzero && mod.prcsn < 0 && mod.width > len)
-		{
-			ADD_ONE_TO_BUFF(buf, "-", nbyte);
-		}
-		nbyte = pad_width(buf, len, nbyte, mod);
-		if (!mod.fl.fzero || mod.prcsn > 0 || !nbyte)
-		{
-			ADD_ONE_TO_BUFF(buf, "-", nbyte);
-		}
-	}
+		neg_justify(buf, mod, num);
 	else if (mod.neg == 0)
+		pos_justify(buf, mod, LEN(num));
+	if (mod.prcsn > (len = LEN(num)))
 	{
-		if (mod.fl.fplus && mod.fl.fzero && mod.prcsn < 0 &&
-			mod.width > len && (mod.fl.space = -1))
-		{
-			ADD_ONE_TO_BUFF(buf, "+", nbyte);
-		}
-		mod.neg = mod.fl.fplus;
-		nbyte = pad_width(buf, len, nbyte, mod);
-		if ((mod.fl.fplus && mod.fl.space != -1))
-		{
-			ADD_ONE_TO_BUFF(buf, "+", nbyte);
-		}
-		if (!mod.fl.fplus && mod.fl.space && !nbyte)
-		{
-			ADD_ONE_TO_BUFF(buf, " ", nbyte);
-		}
-	}
-	if (mod.prcsn > len)
 		while ((mod.prcsn--) - len > 0)
 		{
-			ADD_ONE_TO_BUFF(buf, "0", nbyte);
-		}
-	ADD_TO_BUFF(buf, num, nbyte, len);
-	return (nbyte);
-}
-
-static	int		left_justify(char *buf, char *num, t_mod mod)
-{
-	int		nbyte;
-	int		len;
-
-	nbyte = 0;
-	len = (int)ft_strlen(num);
-	if (mod.neg == 1)
-	{
-		ADD_ONE_TO_BUFF(buf, "-", nbyte);
-	}
-	else if (mod.neg == 0)
-	{
-		if (mod.fl.fplus)
-		{
-			ADD_ONE_TO_BUFF(buf, "+", nbyte);
-		}
-		else if (mod.fl.space)
-		{
-			ADD_ONE_TO_BUFF(buf, " ", nbyte);
+			ft_strcpy(buf, "0");
+			buf++;
 		}
 	}
-	while (mod.prcsn-- > len)
-	{
-		ADD_ONE_TO_BUFF(buf, "0", nbyte);
-	}
-	ADD_TO_BUFF(buf, num, nbyte, len);
-	while (nbyte < mod.width)
-	{
-		ADD_ONE_TO_BUFF(buf, " ", nbyte);
-	}
-	return (nbyte);
+	nbyte = LEN(buf);
+	ft_strncpy(buf + nbyte, num, len);
 }
 
 static int64_t	convert_length(int length, va_list ap)
@@ -154,19 +104,17 @@ static int64_t	convert_length(int length, va_list ap)
 int				i_to_buf(char *buf, t_mod modifiers, va_list ap)
 {
 	int64_t	num;
-	int		nbyte;
 	char	*str;
 
-	nbyte = 0;
 	num = convert_length(modifiers.length, ap);
 	modifiers.neg = (num < 0) ? 1 : 0;
 	IF_THEN(modifiers.neg == 1, num *= -1);
 	str = num_string_base(num, 10);
 	IF_THEN(str[0] == '0' && modifiers.prcsn == 0, str[0] = '\0');
 	if (modifiers.fl.minus == 1)
-		nbyte += left_justify(buf, str, modifiers);
+		left_jut(buf, str, modifiers, 0);
 	else
-		nbyte += right_justify(buf, str, modifiers);
+		right_justify(buf, str, modifiers, 0);
 	free(str);
-	return (nbyte);
+	return (LEN(buf));
 }
