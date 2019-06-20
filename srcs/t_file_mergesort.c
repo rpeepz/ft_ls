@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 14:30:45 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 06:43:08 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static int		sort_args(t_file *a, t_file *b, char flags)
 
 static int		dispatch_sort(t_file *a, t_file *b, char flags, int type)
 {
+	long	equal;
+
 	if (type == 1)
 		return (sort_args(a, b, flags));
 	if (flags & 0x8)
@@ -50,6 +52,15 @@ static int		dispatch_sort(t_file *a, t_file *b, char flags, int type)
 				CURRENT_DIR(b->name) || PARENT_DIR(b->name),
 				ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
 		return (1);
+	}
+	if (flags & 0x40)
+	{
+		equal = a->info.st_mtimespec.tv_sec - b->info.st_mtimespec.tv_sec;
+		if (!equal)
+			equal = a->info.st_mtimespec.tv_nsec - b->info.st_mtimespec.tv_nsec;
+		if (flags & 0x20)
+			return (equal > 0 ? 0 : 1);
+		return (equal > 0 ? 1 : 0);
 	}
 	if (flags & 0x20)
 		return (ft_strcmp(a->name, b->name) <= 0 ? 0 : 1);
