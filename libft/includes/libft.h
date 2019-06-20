@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 21:14:12 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/18 02:38:47 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 04:24:58 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,5 +240,6 @@ int					convert_b(t_mods modifiers, va_list ap, int i);
 int					c_to_buf(char *buf, t_mod modifiers, va_list ap);
 int					i_to_buf(char *buf, t_mod modifiers, va_list ap);
 int					s_to_buf(char *buf, t_mod modifiers, va_list ap);
+int					x_to_buf(char *buf, t_mod modifiers, va_list ap, int i);
 
 #endif

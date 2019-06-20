@@ -6,7 +6,7 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/13 21:22:38 by rpapagna          #+#    #+#              #
-#    Updated: 2019/05/28 18:15:30 by rpapagna         ###   ########.fr        #
+#    Updated: 2019/06/20 04:56:49 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,8 @@ PRINTF	= finders.c \
 SPRINTF	= get_mod.c \
 		c_to_buf.c \
 		i_to_buf.c \
-		s_to_buf.c
+		s_to_buf.c \
+		x_to_buf.c
 
 OBJ = $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
 OBJ += $(addprefix $(OBJ_PATH)/,$(PRINTF:.c=.o))
