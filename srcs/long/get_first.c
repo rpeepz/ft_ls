@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:39:48 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/19 23:11:32 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 06:11:18 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char			*get_time(struct timespec modified, char *p)
 {
-	time_t	*the_time;
+	time_t	the_time;
 
-	the_time = &modified.tv_sec;
-	p = ctime(the_time);
+	the_time = modified.tv_sec;
+	p = ctime(&the_time);
 	p += 4;
 	p[12] = '\0';
 	return (p);
