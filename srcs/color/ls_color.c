@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 02:59:38 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 05:57:53 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,9 @@ int				ls_color(t_file *paths, char flags)
 			return (color_first_files(&paths, flags, 0, 0));
 		return (color_contents(paths, flags, 2));
 	}
-	if (flags & 0x2 && !paths->index && N_DIR(paths))
+	if (flags & 0x2 && !paths->index && N_DIR(paths) &&
+		get_type(paths->info.st_mode) != 'b' &&
+		get_type(paths->info.st_mode) != 'c')
 		return (color_contents(paths, flags, 0));
 	else
 	{

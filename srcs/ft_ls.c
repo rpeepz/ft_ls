@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 02:58:40 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 05:57:33 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,9 @@ int				ft_ls(t_file *paths, char flags)
 			return (print_first_files(&paths, flags, 0, 0));
 		return (print_contents(paths, flags, 2));
 	}
-	if (flags & 0x2 && !paths->index && N_DIR(paths))
+	if (flags & 0x2 && !paths->index && N_DIR(paths) &&
+		get_type(paths->info.st_mode) != 'b' &&
+		get_type(paths->info.st_mode) != 'c')
 		return (print_contents(paths, flags, 0));
 	else
 	{
