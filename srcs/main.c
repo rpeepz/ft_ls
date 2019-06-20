@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 21:48:57 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/17 22:15:21 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 05:17:02 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ char			*define_color(t_file *paths)
 	IF_RETURN(Y_DIR(paths), BGRN);
 	IF_RETURN(S_ISLNK(paths->info.st_mode), MAG);
 	IF_RETURN(paths->info.st_mode & S_IEXEC, RED);
+	IF_RETURN(get_type(paths->info.st_mode) == 'b', UCYN);
+	IF_RETURN(get_type(paths->info.st_mode) == 'c', UYEL);
 	return (NOCOL);
 }
