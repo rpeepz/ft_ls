@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/15 17:22:58 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 02:59:38 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int				color_recurse(t_file **apath, char flags, int longest)
 
 	paths = *apath;
 	ft_bzero(buf, 4096);
-	IF_THEN((len = 0) && flags & 0x10, norminette2(&paths, "", len, flags));
+	IF_THEN(!(len = 0) && flags & 0x10, norminette2(&paths, "", len, flags));
 	while (!(flags & 0x10) && paths && N_DIR(paths) &&
 		(color = define_color(paths)))
 	{
@@ -124,11 +124,13 @@ int				ls_color(t_file *paths, char flags)
 	{
 		if (!paths->index && !(flags & 0x10))
 			return (color_contents(paths, flags, 0));
-		if ((paths->index && N_DIR(paths)) || flags & 0x10)
+		if ((paths->index && N_DIR(paths)))
 		{
 			return (color_first_files(&paths, flags,
 			get_longest(paths, flags, 1), 0));
 		}
+		if (!paths->index && N_DIR(paths) && flags & 0x10)
+			return (color_first_files(&paths, flags, 0, 0));
 		return (color_contents(paths, flags, 2));
 	}
 	if (flags & 0x2 && !paths->index && N_DIR(paths))
@@ -137,6 +139,6 @@ int				ls_color(t_file *paths, char flags)
 	{
 		color_recurse(&paths, flags, get_longest(paths, flags, 1));
 	}
-	IF_THEN(!(flags & 0x1), ft_putchar('\n'));
+	IF_THEN(!(flags & 0x1) && !(flags & 0x10), ft_putchar('\n'));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 19:22:02 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/17 22:05:40 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 02:58:40 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,13 @@ int				ft_ls(t_file *paths, char flags)
 	{
 		if (!paths->index && !(flags & 0x10))
 			return (print_contents(paths, flags, 0));
-		if ((paths->index && N_DIR(paths)) || flags & 0x10)
+		if ((paths->index && N_DIR(paths)))
 		{
 			return (print_first_files(&paths, flags,
 			get_longest(paths, flags, 1), 0));
 		}
+		if (!paths->index && N_DIR(paths) && flags & 0x10)
+			return (print_first_files(&paths, flags, 0, 0));
 		return (print_contents(paths, flags, 2));
 	}
 	if (flags & 0x2 && !paths->index && N_DIR(paths))
@@ -136,6 +138,6 @@ int				ft_ls(t_file *paths, char flags)
 	{
 		recurse(&paths, flags, get_longest(paths, flags, 1));
 	}
-	IF_THEN(!(flags & 0x1), ft_putchar('\n'));
+	IF_THEN(!(flags & 0x1) && !(flags & 0x10), ft_putchar('\n'));
 	return (0);
 }

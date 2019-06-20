@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 01:54:58 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/08 15:33:28 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 02:48:49 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int				get_longest(t_file *paths, char flags, int type)
 	int		tmp_len;
 
 	pad_width = 0;
-	IF_RETURN(flags & 0x1, 0);
+	IF_RETURN(flags & 0x10 || flags & 0x1, 0);
 	while (type == 3 && paths && (tmp_len = LEN(paths->full_path)))
 	{
 		IF_THEN(pad_width < tmp_len, pad_width = tmp_len);

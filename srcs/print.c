@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 19:44:51 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/17 21:59:45 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 02:52:21 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void		ls_display(t_file *entry, char flags, int longest, int type)
 		IF_THEN(!(entry = entry->next) || len > PAGESIZE - 255,
 			ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
-	IF_THEN(LEN(buf), ft_putstr(buf));
 }
 
 int				print_contents(t_file *paths, char flags, int type)
@@ -58,7 +57,9 @@ int				print_contents(t_file *paths, char flags, int type)
 			if (!(t_filedel(&entry)))
 				return (1);
 		t_file_mergesort(&entry, flags, 0);
-		ls_display(entry, flags, get_longest(entry, flags, 0), type);
+		ls_display(entry, flags, get_longest(entry, flags, 0), paths->index ?
+			type : 0);
+		IF_THEN(paths->next, write(1, "\n", 1));
 	}
 	if (!t_filedel(&entry) && paths->next)
 		return (print_contents(paths->next, flags, 1));
