@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 16:39:48 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/17 20:51:58 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/19 23:11:32 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char			*get_time(struct timespec modified, char *p)
 char			get_type(mode_t st_mode)
 {
 	if (S_ISBLK(st_mode))
-		return ('r');
+		return ('b');
 	else if (S_ISCHR(st_mode))
 		return ('c');
 	else if (S_ISDIR(st_mode))
