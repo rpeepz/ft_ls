@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/17 21:45:53 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/19 22:24:38 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int					get_contents(t_file **apath, t_file *path, DIR **dir,
 int					get_longest(t_file *paths, char flags, int type);
 char				*long_out(int *l_flag, t_file *paths, char *p, int type);
 int					*get_longest_file(t_file *paths);
-int					*get_longest_any(t_file *paths, char flags);
+int					*get_longest_any(t_file *paths, char flags, uint64_t block);
 char				get_type(mode_t st_mode);
 char				*get_time(struct timespec modified, char *p);
 char				get_x1(t_file *paths, mode_t st_mode);
