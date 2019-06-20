@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 02:53:43 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 06:49:00 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void		ls_color_display(t_file *entry, char flgs, int lnth, int type)
 		IF_THEN(!(entry = entry->next) || len > PAGESIZE - 255,
 			ft_printf("%s", buf) && (len = ft_sprintf(buf, "\0")));
 	}
+	IF_THEN(LEN(buf), ft_putstr(buf));
 }
 
 int				color_contents(t_file *paths, char flags, int type)
