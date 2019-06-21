@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 04:39:11 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 06:43:08 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:05:16 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,50 +21,50 @@ static int		sort_args(t_file *a, t_file *b, char flags)
 	}
 	if (flags & 0x20)
 	{
-		if (N_DIR(a))
+		if (N_DIR(b))
 		{
-			IF_RETURN(N_DIR(b), ft_strcmp(a->name, b->name) <= 0 ? 0 : 1);
+			IF_RETURN(N_DIR(a), ft_strcmp(b->name, a->name) <= -1 ? 0 : 1);
 			return (1);
 		}
-		if (Y_DIR(a))
-			IF_RETURN(Y_DIR(b), ft_strcmp(a->name, b->name) <= 0 ? 0 : 1);
+		if (Y_DIR(b))
+			IF_RETURN(Y_DIR(a), ft_strcmp(b->name, a->name) <= -1 ? 0 : 1);
 		return (0);
 	}
 	if (N_DIR(a))
 	{
-		IF_RETURN(N_DIR(b), ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
+		IF_RETURN(N_DIR(b), ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
 		return (1);
 	}
 	if (CURRENT_DIR(a->name) || PARENT_DIR(a->name))
 		return (0);
-	return (ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
+	return (ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
 }
 
 static int		dispatch_sort(t_file *a, t_file *b, char flags, int type)
 {
-	long	equal;
-
-	if (type == 1)
-		return (sort_args(a, b, flags));
+	IF_RETURN(type == 1, sort_args(a, b, flags));
 	if (flags & 0x8)
 	{
 		IF_RETURN(CURRENT_DIR(a->name) || PARENT_DIR(a->name) ||
 				CURRENT_DIR(b->name) || PARENT_DIR(b->name),
-				ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
+				ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
 		return (1);
 	}
 	if (flags & 0x40)
 	{
-		equal = a->info.st_mtimespec.tv_sec - b->info.st_mtimespec.tv_sec;
-		if (!equal)
-			equal = a->info.st_mtimespec.tv_nsec - b->info.st_mtimespec.tv_nsec;
-		if (flags & 0x20)
-			return (equal > 0 ? 0 : 1);
-		return (equal > 0 ? 1 : 0);
+		IF_RETURN(a->info.st_mtimespec.tv_sec > b->info.st_mtimespec.tv_sec, 1);
+		if (a->info.st_mtimespec.tv_sec == b->info.st_mtimespec.tv_sec)
+		{
+			if (a->info.st_mtimespec.tv_nsec > b->info.st_mtimespec.tv_nsec)
+				return (1);
+			else if (a->info.st_mtimespec.tv_nsec <
+					b->info.st_mtimespec.tv_nsec)
+				return (0);
+			return (ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
+		}
+		return (0);
 	}
-	if (flags & 0x20)
-		return (ft_strcmp(a->name, b->name) <= 0 ? 0 : 1);
-	return (ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
+	return (ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
 }
 
 static t_file	*sorted_merge(t_file *a, t_file *b, char flags, int type)
@@ -76,7 +76,8 @@ static t_file	*sorted_merge(t_file *a, t_file *b, char flags, int type)
 		return (b);
 	if (!b)
 		return (a);
-	if (dispatch_sort(a, b, flags, type))
+	if (flags & 0x20 ? dispatch_sort(b, a, flags, type) :
+		dispatch_sort(a, b, flags, type))
 	{
 		result = a;
 		result->next = sorted_merge(a->next, b, flags, type);
