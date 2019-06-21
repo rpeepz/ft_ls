@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 14:05:09 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 05:57:53 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 18:59:11 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,13 @@ int				color_re_recurse(t_file *paths, char flags, int type)
 	DIR		*dir;
 	t_file	*entry;
 
-	entry = NULL;
-	if (type == 3)
+	if (!(entry = NULL) && type == 3)
 		dir = opendir(paths->full_path);
 	else
 		dir = opendir(paths->name);
-	if (!ft_strcmp(strerror(errno), "No such file or directory") &&
-		N_DIR(paths))
+	if (!dir)
 	{
-		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 1);
+		IF_RETURN(ft_printf("\nls: %s: %s\n", paths->name, strerror(errno)), 1);
 	}
 	else
 	{

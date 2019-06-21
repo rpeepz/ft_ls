@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:21:47 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 06:49:00 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 07:23:03 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int				color_contents(t_file *paths, char flags, int type)
 
 	entry = NULL;
 	dir = opendir(paths->name);
-	if (!ft_strcmp(strerror(errno), "No such file or directory")
-		&& N_DIR(paths))
-		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
-	IF_RETURN(!type && !dir && ft_printf("%s\n", paths->name), 0);
 	if (!dir)
-		ft_printf("ls: %s: %s\n", paths->name, strerror(errno));
+	{
+		if (!ft_strcmp(strerror(errno), "Permission denied"))
+			ft_printf("%s:\n", paths->name);
+		IF_RETURN(ft_printf("ls: %s: %s\n", paths->name, strerror(errno)), 0);
+	}
 	else
 	{
 		if (get_contents(&entry, paths, &dir, type))
