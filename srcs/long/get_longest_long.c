@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 17:37:19 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 03:41:09 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:42:56 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,29 @@ static void	init_for_int(int **arr)
 	(*arr)[1] = 0;
 	(*arr)[2] = 0;
 	(*arr)[3] = 2;
+}
+
+char		get_acl(t_file *paths)
+{
+	acl_t		acl;
+	acl_entry_t	entry;
+	char		ret;
+
+	acl = acl_get_link_np(paths->full_path, ACL_TYPE_EXTENDED);
+	if (acl && acl_get_entry(acl, ACL_FIRST_ENTRY, &entry) == -1)
+	{
+		acl_free(acl);
+		acl = 0;
+	}
+	if (listxattr(paths->full_path, 0, 0, XATTR_NOFOLLOW) > 0)
+		ret = '@';
+	else if (acl != 0)
+		ret = '+';
+	else
+		ret = ' ';
+	if (acl)
+		acl_free(acl);
+	return (ret);
 }
 
 int			*get_longest_file(t_file *paths)

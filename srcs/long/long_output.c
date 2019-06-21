@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:56:07 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 04:22:55 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:15:35 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,35 +95,33 @@ static char		*reg_dir(t_file *paths, char *p, int *l, int type)
 static char		*first(char *p, int link_len, t_file *paths, mode_t st_mode)
 {
 	char	*tmp;
-	char	first[16];
+	char	first[17];
 	char	*link;
 
-	ft_bzero(first, 16);
+	ft_bzero(first, 17);
 	first[0] = get_type(st_mode);
 	first[1] = (st_mode & S_IRUSR) ? 'r' : '-';
 	first[2] = (st_mode & S_IWUSR) ? 'w' : '-';
-	first[3] = get_x1(paths, paths->info.st_mode);
+	first[3] = get_x1(paths, st_mode);
 	first[4] = (st_mode & S_IRGRP) ? 'r' : '-';
 	first[5] = (st_mode & S_IWGRP) ? 'w' : '-';
-	first[6] = get_x2(paths, paths->info.st_mode);
+	first[6] = get_x2(paths, st_mode);
 	first[7] = (st_mode & S_IROTH) ? 'r' : '-';
 	first[8] = (st_mode & S_IWOTH) ? 'w' : '-';
-	first[9] = get_x3(paths, paths->info.st_mode);
+	first[9] = get_x3(paths, st_mode);
 	link = ft_itoa(paths->info.st_nlink);
-	ft_sprintf(&first[10], "%c %*s", listxattr(paths->name, p, 0,
-		XATTR_NOFOLLOW) > 0 ? '@' : ' ', link_len, link);
-	free(link);
-	tmp = ft_strdup(first);
-	p = ft_strcpy(p, tmp);
-	free(tmp);
+	ft_sprintf(&first[10], "%c %*s", get_acl(paths), link_len, link);
+	tmp = ft_strjoin(p, first);
+	p = tmp;
+	ft_pipewrench("-s", link);
 	return (p);
 }
 
 char			*long_out(int *li, t_file *paths, char *p, int type)
 {
-	char	buf[1024];
+	char	buf[850];
 
-	ft_bzero(buf, 1024);
+	ft_bzero(buf, 850);
 	p = buf;
 	p = first(p, li[0], paths, paths->info.st_mode);
 	if (p[0] == '-' || p[0] == 'd')

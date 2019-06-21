@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 20:04:56 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/19 22:24:38 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:43:02 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/acl.h>
 # include <dirent.h>
 # include <stdio.h>
 # include <errno.h>
@@ -113,6 +114,7 @@ int					*get_longest_file(t_file *paths);
 int					*get_longest_any(t_file *paths, char flags, uint64_t block);
 char				get_type(mode_t st_mode);
 char				*get_time(struct timespec modified, char *p);
+char				get_acl(t_file *paths);
 char				get_x1(t_file *paths, mode_t st_mode);
 char				get_x2(t_file *paths, mode_t st_mode);
 char				get_x3(t_file *paths, mode_t st_mode);

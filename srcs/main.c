@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 21:48:57 by rpapagna          #+#    #+#             */
-/*   Updated: 2019/06/20 05:17:02 by rpapagna         ###   ########.fr       */
+/*   Updated: 2019/06/20 05:45:06 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				main(int ac, char **av)
 		paths->index = 0;
 	else
 		t_file_mergesort(&paths, flags, 1);
-	if (ft_ls(paths, flags))
+	if (ft_ls(paths, flags |= 0x1))
 		IF_RETURN(!t_filedel(&paths) && write(1, MALLOC_ERR, 17), 1);
 	return (0);
 }
