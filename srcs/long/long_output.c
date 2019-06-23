@@ -111,9 +111,9 @@ static char		*first(char *p, int link_len, t_file *paths, mode_t st_mode)
 	first[9] = get_x3(paths, st_mode);
 	link = ft_itoa(paths->info.st_nlink);
 	ft_sprintf(&first[10], "%c %*s", get_acl(paths), link_len, link);
-	tmp = ft_strjoin(p, first);
-	p = tmp;
-	ft_pipewrench("-s", link);
+	tmp = ft_strdup(first);
+	p = ft_strcpy(p, tmp);
+	ft_pipewrench("-s-s", link, tmp);
 	return (p);
 }
 
