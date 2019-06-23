@@ -19,25 +19,24 @@ static int		sort_args(t_file *a, t_file *b, char flags)
 		IF_RETURN(Y_DIR(a) && N_DIR(b), 0);
 		return (1);
 	}
-	if (flags & 0x20)
-	{
-		if (N_DIR(b))
-		{
-			IF_RETURN(N_DIR(a), ft_strcmp(b->name, a->name) <= -1 ? 0 : 1);
-			return (1);
-		}
-		if (Y_DIR(b))
-			IF_RETURN(Y_DIR(a), ft_strcmp(b->name, a->name) <= -1 ? 0 : 1);
-		return (0);
-	}
 	if (N_DIR(a))
 	{
 		IF_RETURN(N_DIR(b), ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
 		return (1);
 	}
 	if (CURRENT_DIR(a->name) || PARENT_DIR(a->name))
-		return (0);
-	return (ft_strcmp(a->name, b->name) <= -1 ? 1 : 0);
+	{
+		if (flags & 0x20)
+			return (CURRENT_DIR(b->name) ? 1 : 0);
+		return (CURRENT_DIR(b->name) ? 0 : 1);
+	}
+	if (flags & 0x20)
+	{
+		if (CURRENT_DIR(a->name) || PARENT_DIR(a->name))
+			return (0);
+		return (ft_strcmp(b->name, a->name) <= 0 ? 1 : 0);
+	}
+	return (ft_strcmp(a->name, b->name) <= 0 ? 1 : 0);
 }
 
 static int		dispatch_sort(t_file *a, t_file *b, char flags, int type)
@@ -76,8 +75,13 @@ static t_file	*sorted_merge(t_file *a, t_file *b, char flags, int type)
 		return (b);
 	if (!b)
 		return (a);
-	if (flags & 0x20 ? dispatch_sort(b, a, flags, type) :
-		dispatch_sort(a, b, flags, type))
+	if (flags & 0x20)
+	{
+		result = a;
+		a = b;
+		b = result;
+	}
+	if (dispatch_sort(a, b, flags, type))
 	{
 		result = a;
 		result->next = sorted_merge(a->next, b, flags, type);
