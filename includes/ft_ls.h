@@ -32,7 +32,7 @@
 **	--------------------------------
 */
 
-# define USAGE "usage: ./ft_ls [-1Raflrt] [file ...]\n"
+# define USAGE "usage: ./ft_ls [-1RGaflrt] [file ...]\n"
 # define MALLOC_ERR "malloc error, yo\n"
 # define IS_FLAG(x) (x == '1' || x == 'R' || x == 'a' || x == 'f')
 # define IS_FLAG2(x) (x == 'G' || x == 'l' || x == 'r' || x == 't')
