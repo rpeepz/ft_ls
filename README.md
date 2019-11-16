@@ -18,6 +18,9 @@ Per 42 circus, the allowed funcitons for this project are:
 | `<unistd.h>` | `write, readlink` |
 
 
+<img src="https://raw.githubusercontent.com/rpeepz/ft_ls/master/Screen%20Shot%202019-06-08%20at%204.02.17%20PM.png">
+speed test /bin/ls vs ./ft_ls on home directory
+
 ### [Changelog]
 [Changelog]: https://github.com/rpeepz/ft_ls/blob/master/CHANGELOG.md "updates"
 follow this link for updates which I've documented from scratch
